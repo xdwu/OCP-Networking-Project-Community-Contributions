@@ -1,0 +1,1289 @@
+#include "dummy_fdb.h"
+
+/*---------------------------------------------*/
+/* FDB */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_fdb_entry(
+    _In_ const sai_fdb_entry_t* fdb_entry,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_fdb_entry(
+    _In_ const sai_fdb_entry_t* fdb_entry)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_set_fdb_entry_attr(
+    _In_ const sai_fdb_entry_t* fdb_entry,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_get_fdb_entry_attr(
+    _In_ const sai_fdb_entry_t* fdb_entry,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_flush_all_fdb_entry(void)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_flush_all_fdb_entry_by_port(
+    _In_ sai_object_id_t port_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_flush_all_fdb_entry_by_vlan(
+    _In_ sai_vlan_id_t vlan_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_flush_all_fdb_entry_by_port_vlan(
+    _In_ sai_object_id_t port_id,
+    _In_ sai_vlan_id_t vlan_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_fdb_api_t dummy_fdb_method_table = {
+    dummy_create_fdb_entry,
+    dummy_remove_fdb_entry,
+    dummy_set_fdb_entry_attr,
+    dummy_get_fdb_entry_attr,
+    dummy_flush_all_fdb_entry,
+    dummy_flush_all_fdb_entry_by_port,
+    dummy_flush_all_fdb_entry_by_vlan,
+    dummy_flush_all_fdb_entry_by_port_vlan
+};
+
+/*---------------------------------------------*/
+/* VLAN */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_vlan(
+    _In_ sai_vlan_id_t vlan_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_vlan(
+    _In_ sai_vlan_id_t vlan_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_vlan_attr(
+    _In_ sai_vlan_id_t vlan_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_vlan_attr(
+    _In_ sai_vlan_id_t vlan_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_add_ports_to_vlan(
+    _In_ sai_vlan_id_t vlan_id,
+    _In_ uint32_t port_count,
+    _In_ const sai_vlan_port_t* port_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_ports_from_vlan(
+    _In_ sai_vlan_id_t vlan_id,
+    _In_ uint32_t port_count,
+    _In_ const sai_vlan_port_t* port_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_all_vlan(void)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_vlan_stats(
+    _In_ sai_vlan_id_t vlan_id,
+    _In_ const sai_vlan_stat_counter_t* counter_ids,
+    _In_ uint32_t number_of_counters,
+    _Out_ uint64_t* counters)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_vlan_api_t dummy_vlan_method_table = {
+    dummy_create_vlan,
+    dummy_remove_vlan,
+    dummy_set_vlan_attr,
+    dummy_get_vlan_attr,
+    dummy_add_ports_to_vlan,
+    dummy_remove_ports_from_vlan,
+    dummy_remove_all_vlan,
+    dummy_get_vlan_stats
+};
+
+/*---------------------------------------------*/
+/* VIRTUAL ROUTER */
+/*---------------------------------------------*/
+sai_status_t
+dummy_create_vrtr(
+    _Out_ sai_object_id_t* vr_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_vrtr(
+    _In_ sai_object_id_t vr_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_vrtr_attr(
+    _In_ sai_object_id_t vr_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_vrtr_attr(
+    _In_ sai_object_id_t vr_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_virtual_router_api_t dummy_vrtr_method_table = {
+    dummy_create_vrtr,
+    dummy_remove_vrtr,
+    dummy_set_vrtr_attr,
+    dummy_get_vrtr_attr
+};
+
+/*---------------------------------------------*/
+/* ROUTE */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_route(
+    _In_ const sai_unicast_route_entry_t* ucast_rt_entry,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_route(
+    _In_ const sai_unicast_route_entry_t* ucast_rt_entry)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_route_attr(
+    _In_ const sai_unicast_route_entry_t* ucast_rt_entry,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_route_attr(
+    _In_ const sai_unicast_route_entry_t* ucast_rt_entry,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_route_api_t dummy_route_method_table = {
+    dummy_create_route,
+    dummy_remove_route,
+    dummy_set_route_attr,
+    dummy_get_route_attr
+};
+
+
+/*---------------------------------------------*/
+/* NEXT HOP */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_nexthop(
+    _Out_ sai_object_id_t* nexthop_id,
+    _In_ uint32_t att_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_remove_nexthop(
+    _In_ sai_object_id_t nexthop_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_nexthop_attr(
+    _In_ sai_object_id_t nexthop_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_nexthop_attr(
+    _In_ sai_object_id_t nexthop_id,
+    _In_ uint32_t att_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_next_hop_api_t dummy_next_hop_method_table = {
+    dummy_create_nexthop,
+    dummy_remove_nexthop,
+    dummy_set_nexthop_attr,
+    dummy_get_nexthop_attr
+};
+
+
+/*---------------------------------------------*/
+/* NEXT HOP GROUP */
+/*---------------------------------------------*/
+sai_status_t
+dummy_create_nexthop_grp(
+    _Out_ sai_object_id_t* nexthop_grp_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_nexthop_grp(
+    _In_ sai_object_id_t nexthop_grp_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_nexthop_grp_attr(
+    _In_ sai_object_id_t nexthop_grp_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_nexthop_grp_attr(
+    _In_ sai_object_id_t nexthop_grp_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_add_nexthop_to_grp(
+    _In_ sai_object_id_t nexthop_grp_id,
+    _In_ uint32_t nexthop_count,
+    _In_ const sai_object_id_t* nexthops)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_nexthop_from_grp(
+    _In_ sai_object_id_t nexthop_grp_id,
+    _In_ uint32_t nexthop_count,
+    _In_ const sai_object_id_t* nexthops)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_next_hop_group_api_t dummy_next_hop_group_method_table = {
+    dummy_create_nexthop_grp,
+    dummy_remove_nexthop_grp,
+    dummy_set_nexthop_grp_attr,
+    dummy_get_nexthop_grp_attr,
+    dummy_add_nexthop_to_grp,
+    dummy_remove_nexthop_from_grp
+};
+
+
+/*---------------------------------------------*/
+/* ROUTER INTERFACE */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_rtr_intf(
+    _Out_ sai_object_id_t* rif_id,
+    _In_ uint32_t attr_count,
+    _In_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_rtr_intf(
+    _In_ sai_object_id_t rif_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_rtr_intf_attr(
+    _In_ sai_object_id_t rif_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_rtr_intf_attr(
+    _In_ sai_object_id_t rif_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_router_interface_api_t dummy_router_interface_method_table = {
+    dummy_create_rtr_intf,
+    dummy_remove_rtr_intf,
+    dummy_set_rtr_intf_attr,
+    dummy_get_rtr_intf_attr
+};
+
+/*---------------------------------------------*/
+/* NEIGHBOR */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_nbr_entry(
+    _In_ const sai_neighbor_entry_t* nbr_entry,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_nbr_entry(
+    _In_ const sai_neighbor_entry_t* nbr_entry)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_nbr_attr(
+    _In_ const sai_neighbor_entry_t* nbr_entry,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_nbr_attr(
+    _In_ const sai_neighbor_entry_t* nbr_entry,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_all_nbr_entry(void)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_neighbor_api_t dummy_neighbor_method_table = {
+    dummy_create_nbr_entry,
+    dummy_remove_nbr_entry,
+    dummy_set_nbr_attr,
+    dummy_get_nbr_attr,
+    dummy_remove_all_nbr_entry
+};
+
+/*---------------------------------------------*/
+/* QOS */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_set_cos_attr(
+    _In_ sai_object_id_t port_id,
+    _In_ sai_cos_t cos_value,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_cos_attr(
+    _In_ sai_object_id_t port_id,
+    _In_ sai_cos_t cos_value,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_cos_mapping(
+    _In_ sai_object_id_t port_id,
+    _In_ sai_qos_map_t qos_map_selector,
+    _In_ uint32_t value_to_map,
+    _In_ sai_cos_t cos_value)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_cos_mapping(
+    _In_ sai_object_id_t port_id,
+    _In_ sai_qos_map_t qos_map_selector,
+    _In_ uint32_t value_to_map,
+    _Out_ sai_cos_t* cos_value)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_qos_api_t dummy_qos_method_table = {
+    dummy_set_cos_attr,
+    dummy_get_cos_attr,
+    dummy_set_cos_mapping,
+    dummy_get_cos_mapping
+};
+
+/*---------------------------------------------*/
+/* ACL */
+/*---------------------------------------------*/
+
+sai_status_t
+dummy_create_acl_table(
+    _Out_ sai_object_id_t* acl_table_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_delete_acl_table(
+    _In_ sai_object_id_t acl_table_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_acl_table_attr(
+    _In_ sai_object_id_t acl_table_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_acl_table_attr(
+    _In_ sai_object_id_t acl_table_id,
+    _In_ uint32_t attr_count,
+    _Out_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_create_acl_entry(
+    _Out_ sai_object_id_t* acl_entry_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_delete_acl_entry(
+    _In_ sai_object_id_t acl_entry_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_acl_entry_attr(
+    _In_ sai_object_id_t acl_entry_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_acl_entry_attr(
+    _In_ sai_object_id_t acl_entry_id,
+    _In_ uint32_t attr_count,
+    _Out_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_create_acl_counter(
+    _Out_ sai_object_id_t* acl_cntr_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_delete_acl_counter(
+    _In_ sai_object_id_t acl_cntr_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_acl_counter_attr(
+    _In_ sai_object_id_t acl_cntr_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_acl_counter_attr(
+    _In_ sai_object_id_t acl_cntr_id,
+    _In_ uint32_t attr_count,
+    _Out_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_acl_api_t dummy_acl_method_table = {
+    dummy_create_acl_table,
+    dummy_delete_acl_table,
+    dummy_set_acl_table_attr,
+    dummy_get_acl_table_attr,
+    dummy_create_acl_entry,
+    dummy_delete_acl_entry,
+    dummy_set_acl_entry_attr,
+    dummy_get_acl_entry_attr,
+    dummy_create_acl_counter,
+    dummy_delete_acl_counter,
+    dummy_set_acl_counter_attr,
+    dummy_get_acl_counter_attr
+};
+
+
+/*---------------------------------------------*/
+/* HOST INTERFACE */
+/*---------------------------------------------*/
+sai_status_t
+dummy_create_host_intf(
+    _Out_ sai_object_id_t* hif_id,
+    _In_ uint32_t attr_count,
+    _In_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_host_intf(
+    _In_ sai_object_id_t hif_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+
+sai_status_t
+dummy_set_host_intf_attr(
+    _In_ sai_object_id_t hif_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_host_intf_attr(
+    _In_ sai_object_id_t hif_id,
+    _In_ uint32_t attr_count,
+    _Out_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_host_interface_api_t dummy_host_interface_method_table = {
+    dummy_create_host_intf,
+    dummy_remove_host_intf,
+    dummy_set_host_intf_attr,
+    dummy_get_host_intf_attr
+};
+
+/*---------------------------------------------*/
+/* MIRROR */
+/*---------------------------------------------*/
+sai_status_t
+dummy_create_mirror_session(
+    _Out_ sai_object_id_t* session_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_mirror_session(
+    _In_ sai_object_id_t session_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_mirror_sess_attr(
+    _In_ sai_object_id_t session_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_mirror_sess_attr(
+    _In_ sai_object_id_t session_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_mirror_api_t dummy_mirror_method_table = {
+    dummy_create_mirror_session,
+    dummy_remove_mirror_session,
+    dummy_set_mirror_sess_attr,
+    dummy_get_mirror_sess_attr
+};
+
+/*---------------------------------------------*/
+/* SAMPLEPACKET */
+/*---------------------------------------------*/
+
+
+sai_status_t
+dummy_create_smpl_pkt_session(
+    _Out_ sai_object_id_t* session_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_smpl_pkt_session(
+    _In_ sai_object_id_t session_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_smpl_pkt_sess_attr(
+    _In_ sai_object_id_t session_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_smpl_pkt_sess_attr(
+    _In_ sai_object_id_t session_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_samplepacket_api_t dummy_smpl_pkt_method_table = {
+    dummy_create_smpl_pkt_session,
+    dummy_remove_smpl_pkt_session,
+    dummy_set_smpl_pkt_sess_attr,
+    dummy_get_smpl_pkt_sess_attr
+};
+
+/*---------------------------------------------*/
+/* STP */
+/*---------------------------------------------*/
+
+
+sai_status_t
+dummy_create_stp_inst(
+    _Out_ sai_object_id_t* inst_id,
+    _In_ uint32_t attr_count,
+    _In_ const sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_stp_inst(
+    _In_ sai_object_id_t inst_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_stp_port_state(
+    _In_ sai_object_id_t inst_id,
+    _In_ sai_object_id_t port_id,
+    _In_ sai_port_stp_port_state_t stp_port_state)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_stp_port_state(
+    _In_ sai_object_id_t inst_id,
+    _In_ sai_object_id_t port_id,
+    _Out_ sai_port_stp_port_state_t* stp_port_state)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_stp_attr(
+    _In_ sai_object_id_t stp_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_stp_attr(
+    _In_ sai_object_id_t stp_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_stp_api_t dummy_stp_method_table = {
+    dummy_create_stp_inst,
+    dummy_remove_stp_inst,
+    dummy_set_stp_port_state,
+    dummy_get_stp_port_state,
+    dummy_set_stp_attr,
+    dummy_get_stp_attr
+};
+
+/*---------------------------------------------*/
+/* LAG */
+/*---------------------------------------------*/
+/*
+*/
+
+sai_status_t
+dummy_create_lag(
+    _Out_ sai_object_id_t* lag_id,
+    _In_ uint32_t attr_count,
+    _In_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_lag(
+    _In_ sai_object_id_t lag_id)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_set_lag_attr(
+    _In_ sai_object_id_t lag_id,
+    _In_ const sai_attribute_t* attr)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_get_lag_attr(
+    _In_ sai_object_id_t lag_id,
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t* attr_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_add_ports_to_lag(
+    _In_ sai_object_id_t lag_id,
+    _In_ const sai_object_list_t* port_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_status_t
+dummy_remove_ports_from_lag(
+    _In_ sai_object_id_t lag_id,
+    _In_ const sai_object_list_t* port_list)
+{
+    printf("%s\n", __FUNCTION__);
+    return SAI_STATUS_SUCCESS;
+}
+
+sai_lag_api_t dummy_lag_method_table = {
+    dummy_create_lag,
+    dummy_remove_lag,
+    dummy_set_lag_attr,
+    dummy_get_lag_attr,
+    dummy_add_ports_to_lag,
+    dummy_remove_ports_from_lag
+};
+
+
+/*---------------------------------------------*/
+/* SAI_API Query */
+/*---------------------------------------------*/
+
+
+sai_status_t 
+sai_api_query(
+    _In_ sai_api_t sai_api_id,
+    _Out_ void** api_method_table)
+{
+    printf("%s SAI_API_ID %2X\n", __FUNCTION__, sai_api_id);
+
+    if (api_method_table == NULL) {
+        printf("Fail to sai_api_query, api_method_table==NULL\n");
+        return SAI_STATUS_FAILURE;
+    }
+
+    switch(sai_api_id) {
+        case SAI_API_SWITCH:
+            *api_method_table = &dummy_switch_method_table;
+            break;
+
+        case SAI_API_PORT:
+            *api_method_table = &dummy_port_method_table;
+            break;
+
+        case SAI_API_FDB:
+            *api_method_table = &dummy_fdb_method_table;
+            break;
+
+        case SAI_API_VLAN:
+            *api_method_table = &dummy_vlan_method_table;
+            break;
+
+        case SAI_API_VIRTUAL_ROUTER:
+            *api_method_table = &dummy_vrtr_method_table;
+            break;
+
+        case SAI_API_ROUTE:
+            *api_method_table = &dummy_route_method_table;
+            break;
+
+        case SAI_API_NEXT_HOP:
+            *api_method_table = &dummy_next_hop_method_table;
+            break;
+
+        case SAI_API_NEXT_HOP_GROUP:
+            *api_method_table = &dummy_next_hop_group_method_table;
+            break;
+
+        case SAI_API_ROUTER_INTERFACE:
+            *api_method_table = &dummy_router_interface_method_table;
+            break;
+
+        case SAI_API_NEIGHBOR:
+            *api_method_table = &dummy_neighbor_method_table;
+            break;
+
+        case SAI_API_QOS:
+            *api_method_table = &dummy_qos_method_table;
+            break;
+
+        case SAI_API_ACL:
+            *api_method_table = &dummy_acl_method_table;
+            break;
+
+        case SAI_API_HOST_INTERFACE:
+            *api_method_table = &dummy_host_interface_method_table;
+            break;
+
+        case SAI_API_MIRROR:
+            *api_method_table = &dummy_mirror_method_table;
+            break;
+
+        case SAI_API_SAMPLEPACKET:
+            *api_method_table = &dummy_smpl_pkt_method_table;
+            break;
+
+        case SAI_API_STP:
+            *api_method_table = &dummy_stp_method_table;
+            break;
+
+        case SAI_API_LAG:
+            *api_method_table = &dummy_lag_method_table;
+            break;
+
+        case SAI_API_UNSPECIFIED:
+        default:
+            *api_method_table = NULL;
+            break;
+    }
+
+    if (*api_method_table == NULL) {
+        return SAI_STATUS_FAILURE;
+    }
+
+    return SAI_STATUS_SUCCESS;
+
+}
+
+/*---------------------------------------------*/
+/* Initialize L3 */
+/*---------------------------------------------*/
+bool InitializeL3(void)
+{
+    printf("%s\n", __FUNCTION__);
+    sai_status_t status;
+    sai_attribute_t attr;
+    sai_object_id_t g_vr_id;
+
+    attr.id = SAI_SWITCH_ATTR_CPU_PORT;
+    status = sai_switch_api->get_switch_attribute(1, &attr);
+
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to get cpu port. status =%x\n", status);
+        return false;
+    }
+
+
+    status = sai_vr_api->create_virtual_router(&g_vr_id, 0, NULL);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to create virtual router. status =%x\n", status);
+        return false;
+    }
+
+    return true;
+}
+
+int main(int argc, char **argv)
+{
+    sai_status_t rt;
+    
+    printf("*******************\n");
+    printf("Dummy Test Suite\n");
+    printf("*******************\n");
+    rt = sai_api_initialize(0, &dummy_service_method_table);
+
+    if (rt != SAI_STATUS_SUCCESS) {
+        printf("FAILURE sai_api_initialize\n");
+        return rt;
+    }
+
+    printf("\n*** QUERY SAI API ***\n");
+
+    rt = sai_api_query(SAI_API_SWITCH, (void**)&sai_switch_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_switch_api == NULL) {
+        printf("Fail to Query SAI_API_SWITCH\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_PORT, (void**)&sai_port_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_port_api == NULL) {
+        printf("Fail to Query SAI_API_PORT\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_FDB, (void**)&sai_fdb_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_fdb_api == NULL) {
+        printf("Fail to Query SAI_API_FDB\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_VLAN, (void**)&sai_vlan_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_vlan_api == NULL) {
+        printf("Fail to Query SAI_API_VLAN\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_VIRTUAL_ROUTER, (void**)&sai_vr_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_vr_api == NULL) {
+        printf("Fail to Query SAI_API_VIRTUAL_ROUTER\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_ROUTE, (void**)&sai_route_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_route_api == NULL) {
+        printf("Fail to Query SAI_API_ROUTE\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_NEXT_HOP, (void**)&sai_next_hop_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_next_hop_api == NULL) {
+        printf("Fail to Query SAI_API_NEXT_HOP\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_NEXT_HOP_GROUP, (void**)&sai_next_hop_group_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_next_hop_group_api == NULL) {
+        printf("Fail to Query SAI_API_NEXT_HOP_GROUP\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_ROUTER_INTERFACE, (void**)&sai_rif_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_rif_api == NULL) {
+        printf("Fail to Query SAI_API_ROUTER_INTERFACE\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_NEIGHBOR, (void**)&sai_neighbor_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_neighbor_api == NULL) {
+        printf("Fail to Query SAI_API_NEIGHBOR\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_QOS, (void**)&sai_qos_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_qos_api == NULL) {
+        printf("Fail to Query SAI_API_QOS\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_ACL, (void**)&sai_acl_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_acl_api == NULL) {
+        printf("Fail to Query SAI_API_ACL\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_HOST_INTERFACE, (void**)&sai_hif_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_hif_api == NULL) {
+        printf("Fail to Query SAI_API_HOST_INTERFACE\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_MIRROR, (void**)&sai_mirror_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_mirror_api == NULL) {
+        printf("Fail to Query SAI_API_MIRROR\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_SAMPLEPACKET, (void**)&sai_smpl_pkt_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_smpl_pkt_api == NULL) {
+        printf("Fail to Query SAI_API_SAMPLEPACKET\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_STP, (void**)&sai_stp_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_stp_api == NULL) {
+        printf("Fail to Query SAI_API_STP\n");
+        return 1;
+    }
+
+    sai_api_query(SAI_API_LAG, (void**)&sai_lag_api);
+    if (rt != SAI_STATUS_SUCCESS || sai_lag_api == NULL) {
+        printf("Fail to Query SAI_API_LAG\n");
+        return 1;
+    }
+
+
+    printf("\n*** SET LOG LEVEL ***\n");
+
+    sai_log_set(SAI_API_SWITCH, SAI_LOG_DEBUG);
+    sai_log_set(SAI_API_PORT, SAI_LOG_INFO);
+    sai_log_set(SAI_API_FDB, SAI_LOG_WARN);
+    sai_log_set(SAI_API_VLAN, SAI_LOG_ERROR);
+    sai_log_set(SAI_API_VIRTUAL_ROUTER, SAI_LOG_CRITICAL);
+
+    sai_log_set(SAI_API_ROUTE, SAI_LOG_DEBUG);
+    sai_log_set(SAI_API_NEXT_HOP, SAI_LOG_INFO);
+    sai_log_set(SAI_API_NEXT_HOP_GROUP, SAI_LOG_WARN);
+    sai_log_set(SAI_API_ROUTER_INTERFACE, SAI_LOG_ERROR);
+    sai_log_set(SAI_API_NEIGHBOR, SAI_LOG_CRITICAL);
+
+    sai_log_set(SAI_API_QOS, SAI_LOG_DEBUG);
+    sai_log_set(SAI_API_ACL, SAI_LOG_INFO);
+    sai_log_set(SAI_API_HOST_INTERFACE, SAI_LOG_WARN);
+    sai_log_set(SAI_API_MIRROR, SAI_LOG_ERROR);
+    sai_log_set(SAI_API_SAMPLEPACKET, SAI_LOG_CRITICAL);
+
+
+    sai_log_set(SAI_API_STP, SAI_LOG_DEBUG);
+    sai_log_set(SAI_API_LAG, SAI_LOG_INFO);
+
+
+    printf("\n");
+
+    sai_status_t status = 
+        sai_switch_api->initialize_switch(0, "0xb850", "",
+                                        &dummy_switch_notification_handlers);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to sai_initialize_switch %x\n", status);
+        return 1;
+    }
+
+    sai_attribute_t attr;
+    attr.id = SAI_SWITCH_ATTR_SRC_MAC_ADDRESS;
+    status = sai_switch_api->get_switch_attribute(1, &attr);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to get SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch %x\n", status);
+        return 1;
+    }
+
+    status = sai_switch_api->set_switch_attribute(&attr);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to set SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch %x\n", status);
+        return 1;
+    }
+
+    status = 
+        sai_switch_api->connect_switch(0, "127,0.0.1", 
+                                        &dummy_switch_notification_handlers);
+    if (status != SAI_STATUS_SUCCESS) {
+        printf("Fail to sai_connect_switch %x\n", status);
+        return 1;
+    }
+
+
+    printf("\n*** INITIALIZE L3 ***\n");
+    if(!InitializeL3()) {
+        printf("Fail to initialize L3\n");
+        return 1;
+    }
+
+    printf("*******************\n");
+    printf("End of Dummy Test\n");
+    printf("*******************\n");
+    return 0;
+}
+
