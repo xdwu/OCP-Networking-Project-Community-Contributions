@@ -53,13 +53,13 @@ _OBJ_DUMMY = test.o dummy_switch.o dummy_port.o dummy_fdb.o dummy_vlan.o\
 
 OBJ_DUMMY = $(patsubst %, $(ODIR_DUMMY)/%, $(_OBJ_DUMMY))
 
-LIB_DUMMY = libsaidummy.so.v0.9.2
+LIB_DUMMY = libsaidummy.so.0.9.2
 
 $(ODIR_DUMMY)/%.o: $(SRCDIR_DUMMY)/%.c $(DEPS) $(DEPS_DUMMY)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 libdummy: $(OBJ_DUMMY)
-	$(CC) -shared -o $(LDIR_DUMMY)/$(LIB_DUMMY)  $(OBJ_DUMMY)
+	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR_DUMMY)/$(LIB_DUMMY)  $(OBJ_DUMMY)
 
 testdummy: $(OBJ_DUMMY)
 	gcc -o $@ $(CFLAGS) $(LIBS) $(LDIR_DUMMY)/$(LIB_DUMMY)
