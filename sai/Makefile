@@ -16,6 +16,7 @@
 #    Dell Products, L.P., Facebook, Inc
 #
 IDIR = ./inc
+LDIR = ./lib
 CC = gcc
 CFLAGS= -I$(IDIR) -DDebug -g -fPIC
 LIBS = -lm
@@ -32,7 +33,7 @@ DEPS = $(patsubst %, $(IDIR)/%, $(_DEPS))
 ################################################
 #DUMMY SECTIONS
 
-ODIR_DUMMY = ./src/dummy/obj
+ODIR_DUMMY = ./lib/dummy/obj
 LDIR_DUMMY = ./lib/dummy
 SRCDIR_DUMMY = ./src/dummy
 
@@ -42,10 +43,10 @@ _DEPS_DUMMY = 	dummy_acl.h  dummy_lag.h dummy_nexthop.h dummy_rtr_intf.h\
 	dummy_qos.h dummy_stp.h test.h dummy_init.h dummy_nexthop_grp.h\
 	dummy_route.h dummy_switch.h\
 
-DEPS_DUMMY = $(patsubst %, $(SRCDIR_DUMMY)/%, $(_DEPS_DUMMY))
+DEPS_DUMMY = $(patsubst %, $(LDIR_DUMMY)/%, $(_DEPS_DUMMY))
 
 
-_OBJ_DUMMY = test.o dummy_switch.o dummy_port.o dummy_fdb.o dummy_vlan.o\
+_OBJ_DUMMY = dummy_switch.o dummy_port.o dummy_fdb.o dummy_vlan.o\
 	dummy_vrtr.o dummy_route.o dummy_nexthop.o dummy_nexthop_grp.o\
 	dummy_rtr_intf.o dummy_nbr.o dummy_qos.o dummy_acl.o\
 	dummy_host_intf.o dummy_mirror_sess.o dummy_smpl_pkt_sess.o\
@@ -55,17 +56,18 @@ OBJ_DUMMY = $(patsubst %, $(ODIR_DUMMY)/%, $(_OBJ_DUMMY))
 
 LIB_DUMMY = libsaidummy.so.0.9.2
 
-$(ODIR_DUMMY)/%.o: $(SRCDIR_DUMMY)/%.c $(DEPS) $(DEPS_DUMMY)
+#$(ODIR_DUMMY)/%.o: $(LDIR_DUMMY)/%.c $(DEPS) $(DEPS_DUMMY)
+$(ODIR_DUMMY)/%.o: $(LDIR_DUMMY)/%.c $(DEPS) 
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 libdummy: $(OBJ_DUMMY)
-	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR_DUMMY)/$(LIB_DUMMY)  $(OBJ_DUMMY)
+	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR)/$(LIB_DUMMY)  $(OBJ_DUMMY)
 
 testdummy: $(OBJ_DUMMY)
-	gcc -o $@ $(CFLAGS) $(LIBS) $(LDIR_DUMMY)/$(LIB_DUMMY)
+	gcc src/dummy/test.c -o $@ $(CFLAGS) $(LIBS) $(LDIR)/$(LIB_DUMMY)
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR_DUMMY)/*.o $(SRCDIR_DUMMY)/*~  $(INDIR)/*~ $(LDIR_DUMMY)/* testdummy core
+	rm -f $(ODIR_DUMMY)/*.o $(SRCDIR_DUMMY)/*~  $(INDIR)/*~ $(LDIR)/lib*dummy* testdummy core
 
