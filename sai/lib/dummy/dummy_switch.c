@@ -20,9 +20,6 @@
  *
  */
 #include "dummy_switch.h"
-//#include "dummy_init.h"
-
-//extern switch_db_t dummy_switch_db;
 
 void
 dummy_hndlr_switch_state_change(
@@ -78,8 +75,6 @@ sai_switch_notification_t dummy_switch_notification_handlers = {
 #define MAX_PORT            8
 #define MAX_VRTR            2
 #define SIZE_FORWARD_TABLE  32768
-
-switch_db_t     backup_switch_db;
 
 sai_status_t
 dummy_init_switch(
@@ -154,10 +149,12 @@ dummy_init_switch(
     dummy_switch_db.mode_port_brkout.port_list.list = NULL;
 
     /* initialize ports */
-    /*
+
     int i;
     bool ret;
-    port_db_t   *port_db_p;;
+    port_db_t   *port_db_p, *last;
+
+    last = dummy_switch_db.ports;
 
     for (i=0; i< dummy_switch_db.port_list.count; i++) {
         port_db_p = (port_db_t *)malloc(sizeof(port_db_t));
@@ -166,8 +163,8 @@ dummy_init_switch(
         }
 
         port_db_p->id = dummy_switch_db.port_list.list[i];
-
-        ret = init_port(port_db_p);
+        port_db_p->next = NULL;
+        ret = init_port_db(port_db_p);
 
         if (!ret ) {
             return SAI_STATUS_FAILURE;
@@ -175,14 +172,17 @@ dummy_init_switch(
         
         if(dummy_switch_db.ports == NULL) {
             dummy_switch_db.ports = port_db_p;
+            last = port_db_p;
         } else {
-            dummy_switch_db.ports->next = port_db_p;
+            last->next = port_db_p;
+            last = port_db_p;
         }
 
         // Change State of Ports 
+        dummy_switch_notification_handlers.on_port_state_change(
+                port_db_p->id, SAI_PORT_OPER_STATUS_UP);
         
     }
-    */
 
 
     /* Change the State of Switch to Up */
@@ -200,6 +200,10 @@ dummy_shutdown_switch(
     printf("%s\n", __FUNCTION__);
 
     /* Release the Memory */
+    //To Do:
+    //Change State of Ports 
+    /* ... Release Port_DB */
+
     free(dummy_switch_db.port_list.list);
     free(dummy_switch_db.fields_lag_hash.list);
     free(dummy_switch_db.fields_ecmp_hash.list);
