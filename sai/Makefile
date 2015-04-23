@@ -26,7 +26,6 @@ IDIR = ./inc
 LDIR = ./lib
 
 all: libdummy testdummy dummy_unittest
-#all: sample1_unittest 
 
 ##########################################################
 # SAI headers
@@ -110,21 +109,6 @@ $(LDIR)/gtest.a : $(USER_DIR)/gtest-all.o
 
 $(LDIR)/gtest_main.a : $(USER_ODIR)/gtest-all.o $(USER_ODIR)/gtest_main.o
 	$(AR) $(ARFLAGS) -o $@ $^
-
-##########################################################
-#GTEST SECTIONS SAMPLE1_UNITTEST
-
-
-$(USER_ODIR)/sample1.o : $(USER_DIR)/sample1.cc $(USER_DIR)/sample1.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sample1.cc -o $@
-
-$(USER_ODIR)/sample1_unittest.o : $(USER_DIR)/sample1_unittest.cc \
-	$(USER_DIR)/sample1.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sample1_unittest.cc -o $@
-
-sample1_unittest : $(USER_ODIR)/sample1.o $(USER_ODIR)/sample1_unittest.o \
-					$(LDIR)/gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
 ##########################################################
