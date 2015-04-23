@@ -22,25 +22,8 @@
 #ifndef __DUMMY_INIT_H_
 #define __DUMMY_INIT_H_
 
-#include "../../src/dummy/test.h"
-#include "dummy_switch.h"
-#include "dummy_port.h"
-#include "dummy_fdb.h"
-#include "dummy_vlan.h"
-#include "dummy_vrtr.h"
-#include "dummy_route.h"
-#include "dummy_nexthop.h"
-#include "dummy_nexthop_grp.h"
-#include "dummy_rtr_intf.h"
-#include "dummy_nbr.h"
-#include "dummy_qos.h"
-#include "dummy_acl.h"
-#include "dummy_host_intf.h"
-#include "dummy_mirror_sess.h"
-#include "dummy_smpl_pkt_sess.h"
-#include "dummy_stp.h"
-#include "dummy_lag.h"
-
+#include "dummy.h"
+#include "dummy_internal.h"
 
 /*---------------------------------------------*/
 /* INITIALIZE SERVICE TABLE */
@@ -82,5 +65,19 @@ sai_api_query(
 /* Initialize L3 */
 /*---------------------------------------------*/
 bool InitializeL3(void);
+
+
+
+/*---------------------------------------------*/
+/* Internal Data Structure */
+/*---------------------------------------------*/
+
+/*---------------------------------------------*/
+/* Create an instance of switch db, 
+      storing attributes */
+/*---------------------------------------------*/
+//switch_db_t dummy_switch_db;
+
+
 
 #endif // __DUMMY_INIT_H_

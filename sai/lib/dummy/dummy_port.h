@@ -22,7 +22,9 @@
 #ifndef __DUMMY_PORT_H_
 #define __DUMMY_PORT_H_
 
-#include "../../src/dummy/test.h"
+#include "dummy.h"
+#include "dummy_internal.h"
+
 
 sai_status_t
 dummy_set_port_attr(
@@ -44,5 +46,13 @@ dummy_get_port_stats(
 
 
 sai_port_api_t dummy_port_method_table;
+
+
+/*Internal Functions*/
+bool 
+init_port(port_db_t *port_db_p);
+
+
+
 
 #endif //__DUMMY_PORT_H_

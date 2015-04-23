@@ -22,7 +22,8 @@
 #ifndef __DUMMY_FDB_H_
 #define __DUMMY_FDB_H_
 
-#include "../../src/dummy/test.h"
+#include "dummy.h"
+#include "dummy_internal.h"
 
 sai_status_t
 dummy_create_fdb_entry(

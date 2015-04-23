@@ -22,33 +22,19 @@
 #ifndef __DUMMY_TEST_H_
 #define __DUMMY_TEST_H_
 
+/*
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
+*/
 
-#include "sai.h"
-#include "saitypes.h"
-#include "saistatus.h"
-#include "saiswitch.h"
-#include "saiport.h"
-#include "saivlan.h"
-#include "saifdb.h"
-#include "sairouter.h"
-#include "sairouterintf.h"
-#include "saineighbor.h"
-#include "sainexthop.h"
-#include "sainexthopgroup.h"
-#include "sairoute.h"
-#include "saiqos.h"
-#include "saiacl.h"
-#include "saihostintf.h"
-#include "saimirror.h"
-#include "saistp.h"
-#include "saisamplepacket.h"
-#include "sailag.h"
+#include "dummy.h"
+#include "dummy_internal.h"
 
 
+/*
 
 sai_switch_api_t* sai_switch_api;
 sai_port_api_t* sai_port_api;
@@ -68,6 +54,9 @@ sai_samplepacket_api_t* sai_smpl_pkt_api;
 sai_stp_api_t* sai_stp_api;
 sai_lag_api_t* sai_lag_api;
 
+sai_switch_notification_t dummy_switch_notification_handlers;
+
+*/
 bool InitializeL3(void);
 
 #endif  //__DUMMY_TEST_H_

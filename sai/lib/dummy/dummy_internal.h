@@ -19,34 +19,27 @@
  *
  *
  */
-#ifndef __DUMMY_HOST_INTF_H_
-#define __DUMMY_HOST_INTF_H_
 
-#include "dummy.h"
-#include "dummy_internal.h"
+#ifndef __DUMMY_INTERNAL_H_
+#define __DUMMY_INTERNAL_H_
 
-sai_status_t
-dummy_create_host_intf(
-    _Out_ sai_object_id_t* hif_id,
-    _In_ uint32_t attr_count,
-    _In_ sai_attribute_t* attr_list);
+#include "dummy_switch.h"
+#include "dummy_port.h"
+#include "dummy_fdb.h"
+#include "dummy_vlan.h"
+#include "dummy_vrtr.h"
+#include "dummy_route.h"
+#include "dummy_nexthop.h"
+#include "dummy_nexthop_grp.h"
+#include "dummy_rtr_intf.h"
+#include "dummy_nbr.h"
+#include "dummy_qos.h"
+#include "dummy_acl.h"
+#include "dummy_host_intf.h"
+#include "dummy_mirror_sess.h"
+#include "dummy_smpl_pkt_sess.h"
+#include "dummy_stp.h"
+#include "dummy_lag.h"
 
-sai_status_t
-dummy_remove_host_intf(
-    _In_ sai_object_id_t hif_id);
 
-
-sai_status_t
-dummy_set_host_intf_attr(
-    _In_ sai_object_id_t hif_id,
-    _In_ const sai_attribute_t* attr);
-
-sai_status_t
-dummy_get_host_intf_attr(
-    _In_ sai_object_id_t hif_id,
-    _In_ uint32_t attr_count,
-    _Out_ sai_attribute_t* attr_list);
-
-sai_host_interface_api_t dummy_host_interface_method_table;
-
-#endif //__DUMMY_HOST_INTF_H_
+#endif //__DUMMY_INTERNAL_H_

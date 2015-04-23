@@ -22,7 +22,9 @@
 #ifndef __DUMMY_VRTR_H_
 #define __DUMMY_VRTR_H_
 
-#include "../../src/dummy/test.h"
+#include "dummy.h"
+#include "dummy_internal.h"
+
 
 sai_status_t
 dummy_create_vrtr(

@@ -22,7 +22,8 @@
 #ifndef __DUMMY_SWITCH_H_
 #define __DUMMY_SWITCH_H_
 
-#include "../../src/dummy/test.h"
+#include "dummy.h"
+#include "dummy_internal.h"
 
 void
 dummy_hndlr_switch_state_change(
@@ -49,7 +50,6 @@ dummy_hndlr_port_event(
     _In_ sai_object_id_t port_id,
     _In_ sai_port_event_t port_event);
 
-sai_switch_notification_t dummy_switch_notification_handlers; 
 
 /*---------------------------------------------*/
 /* SWITCH */
@@ -88,5 +88,6 @@ dummy_get_switch_attr(
         _Inout_ sai_attribute_t *attr_list);
 
 sai_switch_api_t dummy_switch_method_table;
+
 
 #endif //__DUMMY_SWITCH_H_
