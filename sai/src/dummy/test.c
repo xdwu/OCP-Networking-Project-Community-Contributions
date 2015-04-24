@@ -201,6 +201,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    print_mac(attr.value.mac);
+
     status = sai_switch_api->set_switch_attribute(&attr);
     if (status != SAI_STATUS_SUCCESS) {
         printf("Fail to set SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch, code %x\n", status);

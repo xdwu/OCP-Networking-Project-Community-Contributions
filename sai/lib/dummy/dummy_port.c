@@ -496,11 +496,8 @@ show_port(port_t *port_p)
 
     printf("  max # of learned mac addr: %d\n", port_p->num_max_learned_addr);
 
-    printf("  action for pkt w/ unknown mac addr, fdb limit reached: %s\n",
-            (port_p->act_fdb_learn_limit == 0)?"DROP":
-            (port_p->act_fdb_learn_limit == 1)?"FORWARD":
-            (port_p->act_fdb_learn_limit == 2)?"TRAP":
-            (port_p->act_fdb_learn_limit == 3)?"LOG":"??");
+    printf("  action for pkt w/ unknown mac addr, fdb limit reached: ");
+    print_action_pkt(port_p->act_fdb_learn_limit);
 
 
     printf("  ingress mirror session list: count %d\n", 

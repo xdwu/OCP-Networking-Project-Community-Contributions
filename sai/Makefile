@@ -47,15 +47,15 @@ _DEPS_DUMMY =   dummy_acl.h  dummy_lag.h dummy_nexthop.h dummy_rtr_intf.h\
 		dummy_vlan.h dummy_fdb.h dummy_mirror_sess.h dummy_port.h\
 		dummy_smpl_pkt_sess.h dummy_vrtr.h dummy_host_intf.h  dummy_nbr.h\
 		dummy_qos.h dummy_stp.h test.h dummy_init.h dummy_nexthop_grp.h\
-		dummy_route.h dummy_switch.h dummy_init.h dummy.h\
+		dummy_route.h dummy_switch.h dummy_init.h dummy_util.h dummy.h\
 
 DEPS_DUMMY = $(patsubst %, $(LDIR_DUMMY)/%, $(_DEPS_DUMMY))
 
-_OBJ_DUMMY = dummy_switch.o dummy_port.o dummy_fdb.o dummy_vlan.o\
+_OBJ_DUMMY = dummy_port.o dummy_switch.o dummy_fdb.o dummy_vlan.o\
 		dummy_vrtr.o dummy_route.o dummy_nexthop.o dummy_nexthop_grp.o\
 		dummy_rtr_intf.o dummy_nbr.o dummy_qos.o dummy_acl.o\
 		dummy_host_intf.o dummy_mirror_sess.o dummy_smpl_pkt_sess.o\
-		dummy_stp.o dummy_lag.o dummy_init.o\
+		dummy_stp.o dummy_lag.o dummy_init.o dummy_util.o\
 
 OBJ_DUMMY = $(patsubst %, $(ODIR_DUMMY)/%, $(_OBJ_DUMMY))
 
@@ -65,7 +65,7 @@ $(ODIR_DUMMY)/%.o: $(LDIR_DUMMY)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS) -I$(LDIR_DUMMY) -I$(IDIR)
 
 libdummy: $(OBJ_DUMMY)
-	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR)/$(LIB_DUMMY)  $(OBJ_DUMMY)
+	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR)/$(LIB_DUMMY)  $(OBJ_DUMMY) -I$(LDIR_DUMMY)
 
 testdummy: $(OBJ_DUMMY)
 	gcc src/dummy/test.c -I$(DDIR) -o $@ $(CFLAGS) $(LIBS) $(LDIR)/$(LIB_DUMMY) -I$(LDIR_DUMMY)

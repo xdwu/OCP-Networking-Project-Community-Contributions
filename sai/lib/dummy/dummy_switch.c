@@ -197,7 +197,6 @@ dummy_init_switch(
         // Change State of Ports 
         dummy_switch_notification_handlers.on_port_state_change(
                 port_p->id, SAI_PORT_OPER_STATUS_UP);
-        
     }
 
 
@@ -288,7 +287,6 @@ dummy_set_switch_attr(
             dummy_switch.enable_mcast_cpu_flood = attr->value.booldata;
             break;
 
-
         case SAI_SWITCH_ATTR_VIOLATION_TTL1_ACTION:
             dummy_switch.act_ttl_one = attr->value.u8;
             break;
@@ -374,6 +372,7 @@ dummy_set_switch_attr(
 static sai_status_t
 dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
 {
+    printf("%s \n", __FUNCTION__);
 
     if(attr == NULL) {
         return SAI_STATUS_FAILURE;
@@ -432,7 +431,6 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
         case SAI_SWITCH_ATTR_DEFAULT_STP_INST_ID:
             attr->value.oid = dummy_switch.default_stp_inst_id;
             break;
-
 
         //Read Write
         case SAI_SWITCH_ATTR_SWITCHING_MODE:
@@ -526,18 +524,20 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
 
 sai_status_t
 dummy_get_switch_attr(
-        _In_ uint32_t attr_count,
-        _Inout_ sai_attribute_t *attr_arr)
+    _In_ uint32_t attr_count,
+    _Inout_ sai_attribute_t *attr_arr)
 {
-    printf("%s\n", __FUNCTION__);
+    printf("%s attr count %d\n", __FUNCTION__, attr_count);
 
     if (attr_count == 0 || attr_arr == NULL) {
         return SAI_STATUS_FAILURE;
     }
 
+    /*
     if (attr_count != sizeof(attr_arr)/sizeof(attr_arr[0])) {
         return SAI_STATUS_FAILURE;
     }
+    */
 
     int i = 0;
     sai_status_t ret;
@@ -565,7 +565,7 @@ sai_switch_api_t dummy_switch_method_table = {
 
 void show_switch(void)
 {
-    printf("======== Switch ====================\n");
+    printf("======== switch ====================\n");
     printf("  state: %s\n", 
             (dummy_switch.state_oper == 0)? "UNKNOWN":
             (dummy_switch.state_oper == 1)? "UP":
@@ -593,43 +593,26 @@ void show_switch(void)
     printf("  L2 multicast flood control to CPU port: %s\n", 
             dummy_switch.enable_mcast_cpu_flood?"true":"false");
 
-    printf("  action for packets with TTL=0/TTL=1: %s\n",
-            (dummy_switch.act_ttl_one == 0)? "DROP":
-            (dummy_switch.act_ttl_one ==1)? "FORWARD":
-            (dummy_switch.act_ttl_one ==2)? "TRAP":
-            (dummy_switch.act_ttl_one ==3)? "LOG":"??");
+    printf("  action for packets with TTL=0/TTL=1: ");
+    print_action_pkt(dummy_switch.act_ttl_one);
 
     printf("  default vlan id for ports not in any group: %d\n", 
             dummy_switch.default_port_vlan_id);
 
-    printf("  default switch MAC address: 0x%02x%02x%02x %02x%02x%02x \n",
-            dummy_switch.default_mac_addr[0], 
-            dummy_switch.default_mac_addr[1], 
-            dummy_switch.default_mac_addr[2],
-            dummy_switch.default_mac_addr[3], 
-            dummy_switch.default_mac_addr[4], 
-            dummy_switch.default_mac_addr[5]);
+    printf("  default switch MAC address: ");
+    print_mac(dummy_switch.default_mac_addr);
  
     printf("  max # of learned MAC address: %d\n", dummy_switch.num_max_learned_addr);
     printf("  dynamic FDB entry aging time (sec): %d\n", dummy_switch.time_aging_fdb);
 
-    printf("  action control w/ unknown destination address unicast: %s\n",
-            (dummy_switch.act_fdb_ucast_miss == 0)? "DROP":
-            (dummy_switch.act_fdb_ucast_miss ==1)? "FORWARD":
-            (dummy_switch.act_fdb_ucast_miss ==2)? "TRAP":
-            (dummy_switch.act_fdb_ucast_miss ==3)? "LOG":"??");
+    printf("  action control w/ unknown destination address unicast: ");
+    print_action_pkt(dummy_switch.act_fdb_ucast_miss);
 
-    printf("  action control w/ unknown destination address broadcast: %s\n",
-            (dummy_switch.act_fdb_bcast_miss == 0)? "DROP":
-            (dummy_switch.act_fdb_bcast_miss ==1)? "FORWARD":
-            (dummy_switch.act_fdb_bcast_miss ==2)? "TRAP":
-            (dummy_switch.act_fdb_bcast_miss ==3)? "LOG":"??");
+    printf("  action control w/ unknown destination address broadcast: ");
+    print_action_pkt(dummy_switch.act_fdb_bcast_miss);
 
-    printf("  action control w/ unknown destination address multicast: %s\n",
-            (dummy_switch.act_fdb_mcast_miss == 0)? "DROP":
-            (dummy_switch.act_fdb_mcast_miss ==1)? "FORWARD":
-            (dummy_switch.act_fdb_mcast_miss ==2)? "TRAP":
-            (dummy_switch.act_fdb_mcast_miss ==3)? "LOG":"??");
+    printf("  action control w/ unknown destination address multicast: ");
+    print_action_pkt(dummy_switch.act_fdb_bcast_miss);
 
     printf("  hash algorithm for all LAGs: %s\n",
             (dummy_switch.algo_lag_hash == 1) ? "XOR":

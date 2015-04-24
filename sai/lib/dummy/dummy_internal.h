@@ -40,7 +40,7 @@
 #include "dummy_smpl_pkt_sess.h"
 #include "dummy_stp.h"
 #include "dummy_lag.h"
-#include "dummy_rnd.h"
+#include "dummy_util.h"
 
 
 #endif //__DUMMY_INTERNAL_H_
