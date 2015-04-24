@@ -25,11 +25,8 @@ void
 dummy_hndlr_switch_state_change(
     _In_ sai_switch_oper_status_t switch_oper_status)
 {
-    printf("%s state -> %s\n", __FUNCTION__, 
-            (switch_oper_status==0)?"UNKNOWN":
-            (switch_oper_status==1)?"UP":
-            (switch_oper_status==2)?"DOWN":
-            (switch_oper_status==3)?"FAIL":"??");
+    printf("%s state -> ", __FUNCTION__ );
+    print_switch_state(switch_oper_status);
 }
 
 void
@@ -47,12 +44,8 @@ dummy_hndlr_port_state_change(
     _In_ sai_object_id_t port_id,
     _In_ sai_port_oper_status_t port_status)
 {
-    printf("%s port[0x%8lx] -> %s\n", __FUNCTION__, port_id,
-            (port_status==0)?"UNKNOWN":
-            (port_status==1)?"UP":
-            (port_status==2)?"DOWN":
-            (port_status==3)?"TESTING":
-            (port_status==4)?"NOT_PRESENT":"??");
+    printf("%s port[0x%8lx] -> ", __FUNCTION__, port_id);
+    print_switch_state(port_status);
 
 }
 
@@ -181,6 +174,10 @@ dummy_init_switch(
         port_p->id = dummy_switch.port_list.list[i];
         port_p->next = NULL;
         ret = init_port(port_p);
+
+        if(i==0) {
+            port_p->type = SAI_PORT_TYPE_CPU;
+        }
 
         if (!ret ) {
             return SAI_STATUS_FAILURE;
@@ -566,11 +563,8 @@ sai_switch_api_t dummy_switch_method_table = {
 void show_switch(void)
 {
     printf("======== switch ====================\n");
-    printf("  state: %s\n", 
-            (dummy_switch.state_oper == 0)? "UNKNOWN":
-            (dummy_switch.state_oper == 1)? "UP":
-            (dummy_switch.state_oper == 2)? "DOWN":
-            (dummy_switch.state_oper == 3)? "FAILED":"??");
+    printf("  state: ");
+    print_switch_state(dummy_switch.state_oper);
 
     printf("  # of ports: %d\n", dummy_switch.num_max_port);
     printf("  CPU port: %lu\n", dummy_switch.cpu_port);
@@ -583,9 +577,8 @@ void show_switch(void)
     printf("  min priority acl entry: %d\n", dummy_switch.min_pri_acl_ent);
     printf("  max priority acl entry: %d\n", dummy_switch.max_pri_acl_ent);
     printf("  default STP instance id: %lu\n", dummy_switch.default_stp_inst_id);
-    printf("  switching mode: %s\n", 
-            (dummy_switch.mode_switch == 0)?"CUT_THROUGH":
-            (dummy_switch.mode_switch == 1)?"STORE_AND_FORWARD":"??");
+    printf("  switching mode: " );
+    print_switch_sw_mode(dummy_switch.mode_switch);
 
     printf("  L2 broadcast flood control to CPU port: %s\n", 
             dummy_switch.enable_bcast_cpu_flood?"true":"false");
@@ -605,29 +598,25 @@ void show_switch(void)
     printf("  max # of learned MAC address: %d\n", dummy_switch.num_max_learned_addr);
     printf("  dynamic FDB entry aging time (sec): %d\n", dummy_switch.time_aging_fdb);
 
-    printf("  action control w/ unknown destination address unicast: ");
+    printf("  action control w/ unknown dest addr unicast: ");
     print_action_pkt(dummy_switch.act_fdb_ucast_miss);
 
-    printf("  action control w/ unknown destination address broadcast: ");
+    printf("  action control w/ unknown dest addr broadcast: ");
     print_action_pkt(dummy_switch.act_fdb_bcast_miss);
 
-    printf("  action control w/ unknown destination address multicast: ");
+    printf("  action control w/ unknown dest addr multicast: ");
     print_action_pkt(dummy_switch.act_fdb_bcast_miss);
 
-    printf("  hash algorithm for all LAGs: %s\n",
-            (dummy_switch.algo_lag_hash == 1) ? "XOR":
-            (dummy_switch.algo_lag_hash == 2) ? "CRC":
-            (dummy_switch.algo_lag_hash == 3) ? "RANDOM":"??");
+    printf("  hash algorithm for all LAGs: ");
+    print_switch_hash_algo(dummy_switch.algo_lag_hash);
 
     printf("  hash seed for all LAGs: %u\n", dummy_switch.seed_lag_hash);
 
     printf("  hash fields for all LAGs: count %d\n", 
             dummy_switch.fields_lag_hash.count);
 
-    printf("  hash algorithm for all ECMPs: %s\n",
-            (dummy_switch.algo_ecmp_hash == 1) ? "XOR":
-            (dummy_switch.algo_ecmp_hash == 2) ? "CRC":
-            (dummy_switch.algo_ecmp_hash == 3) ? "RANDOM":"??");
+    printf("  hash algorithm for all ECMPs: ");
+    print_switch_hash_algo(dummy_switch.algo_ecmp_hash);
 
     printf("  hash seed for all ECMPs: %u\n", dummy_switch.seed_ecmp_hash);
 
@@ -636,10 +625,8 @@ void show_switch(void)
 
     printf("  ECMP max # of paths per group: %d\n", dummy_switch.num_max_path_ecmp);
 
-    printf("  port breakout mode: %s\n", 
-            (dummy_switch.mode_port_brkout.breakout_mode == 1)? "1 LANE":
-            (dummy_switch.mode_port_brkout.breakout_mode == 2)? "2 LANE":
-            (dummy_switch.mode_port_brkout.breakout_mode == 4)? "4 LANE":"??");
+    printf("  port breakout mode: ");
+    print_port_brkout_mode(dummy_switch.mode_port_brkout.breakout_mode);
 
     printf("  custom range base: 0x%8x\n", SAI_SWITCH_ATTR_CUSTOM_RANGE_BASE);
 

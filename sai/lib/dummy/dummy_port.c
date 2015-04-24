@@ -423,36 +423,23 @@ show_port(port_t *port_p)
 
     printf("=========== port ==================\n");
     printf("  id: 0x%8lx \n", port_p->id);
-    printf("  type: %s \n", 
-            (port_p->type==0)? "LOGICAL":
-            (port_p->type==1)? "CPU":
-            (port_p->type==2)? "CPU":"??");
+    printf("  type: ");
+    print_port_type(port_p->type);
 
-    printf("  state: %s \n",
-            (port_p->state_port==0)?"UNKNOWN":
-            (port_p->state_port==1)?"UP":
-            (port_p->state_port==2)?"DOWN":
-            (port_p->state_port==3)?"TESTING":
-            (port_p->state_port==4)?"NOT_PRESENT":"??");
+    printf("  state: ");
+    print_port_state(port_p->state_port);
 
     printf("  hardware lane list: count %d\n", port_p->hw_lane_lst.count);
     printf("  breakout mode supported: count %d\n", port_p->sptd_brkout_mode_lst.count);
 
-    printf("  current breakout mode: %s\n", 
-                (port_p->mode_curr_brkout==1)? "1 LANE":
-                (port_p->mode_curr_brkout==2)? "2 LANE":
-                (port_p->mode_curr_brkout==4)? "4 LANE":"??");
+    printf("  current breakout mode: "); 
+    print_port_brkout_mode(port_p->mode_curr_brkout);
 
 
     printf("  speed: %d\n", port_p->speed);
     printf("  admin mode: %s\n", port_p->enable_admin_mode?"true":"false");
-    printf("  media type: %s\n", 
-            (port_p->type_media == 0)?"NOT_PRESENT":
-            (port_p->type_media == 1)?"UNKNOWN":
-            (port_p->type_media == 0)?"QSFP_FIBER":
-            (port_p->type_media == 0)?"QSFP_COPPER":
-            (port_p->type_media == 0)?"SFP_FIBER":
-            (port_p->type_media == 0)?"SFP_FIBER":"??");
+    printf("  media type: ");
+    print_port_media_type(port_p->type_media);
 
     printf("  default vlan id: %d\n",  port_p->default_vlan_id);
     printf("  default vlan priority: %d\n", port_p->default_vlan_pri);
@@ -465,16 +452,11 @@ show_port(port_t *port_p)
     printf("  dropping of tagged: %s\n", 
             port_p->enable_drop_tagged?"true":"false");
 
-    printf("  internal loopback control: %s\n",
-            (port_p->mode_int_lpbk ==0)?"LOOPBACK_NONE":
-            (port_p->mode_int_lpbk ==1)?"LOOPBACK_PHY":
-            (port_p->mode_int_lpbk ==2)?"LOOPBACK_MAC":"??");
+    printf("  internal loopback control: ");
+    print_port_lpbk_cntl(port_p->mode_int_lpbk);
 
-    printf("  fdb learning mode: %s\n",
-            (port_p->mode_fdb_learn ==0)?"DROP":
-            (port_p->mode_fdb_learn ==1)?"DISABLE":
-            (port_p->mode_fdb_learn ==2)?"HW":
-            (port_p->mode_fdb_learn ==2)?"CPU":"??");
+    printf("  fdb learning mode: ");
+    print_port_fdb_lrn_mode(port_p->mode_fdb_learn);
 
     printf("  update DSCP of outgoing pkt: %s\n", 
             port_p->enable_update_dscp?"true":"false");
@@ -488,11 +470,8 @@ show_port(port_t *port_p)
     printf("  multicast storm control: %s\n",
             port_p->enable_mcast_storm_cntl?"true":"false");
 
-    printf("  global flow control: %s\n",
-            (port_p->mode_globle_flow_cntl==0)?"DISABLE":
-            (port_p->mode_globle_flow_cntl==1)?"TX_ONLY":
-            (port_p->mode_globle_flow_cntl==2)?"RX_ONLY":
-            (port_p->mode_globle_flow_cntl==3)?"BOTH_ENABLE":"??");
+    printf("  global flow control: ");
+    print_port_flow_cntl_mode(port_p->mode_globle_flow_cntl);
 
     printf("  max # of learned mac addr: %d\n", port_p->num_max_learned_addr);
 
