@@ -73,9 +73,11 @@ sai_switch_notification_t dummy_switch_notification_handlers;
 
 
 /* Public Data Structure */
-typedef struct _port_db_t {
+
+
+typedef struct _port_t {
     /* Internal Data Structure */
-    struct _port_db_t  *next;
+    struct _port_t  *next;
     sai_object_id_t id;
 
     /* Attributes */
@@ -120,12 +122,12 @@ typedef struct _port_db_t {
     sai_object_id_t ingress_smpl_pkt_id;        //when disabled  SAI_NULL_OBJECT_ID
     sai_object_id_t egress_smpl_pkt_id;         //when disabled  SAI_NULL_OBJECT_ID
 
-} port_db_t;
+} port_t;
 
 
-typedef struct _switch_db_t {
+typedef struct _switch_t {
     /* Internal Data Structure */
-    port_db_t    *ports;
+    port_t    *ports;
 
     /* Attributes */
     /* Read Only */
@@ -173,8 +175,8 @@ typedef struct _switch_db_t {
     sai_port_breakout_t mode_port_brkout;
     uint64_t    custom_range_base;
 
-} switch_db_t;
+} switch_t;
 
-switch_db_t dummy_switch_db;
+switch_t dummy_switch;
 
 #endif //__DUMMY_H_

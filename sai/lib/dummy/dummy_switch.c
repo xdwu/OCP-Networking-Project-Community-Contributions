@@ -86,107 +86,107 @@ dummy_init_switch(
     printf("%s\n", __FUNCTION__);
 
     
-    dummy_switch_db.state_oper = SAI_SWITCH_OPER_STATUS_UNKNOWN;
-    dummy_switch_db.num_max_port = MAX_PORT;
+    dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_UNKNOWN;
+    dummy_switch.num_max_port = MAX_PORT;
 
-    dummy_switch_db.port_list.count = MAX_PORT; //Not Sure where to get info
-    dummy_switch_db.port_list.list = 
+    dummy_switch.port_list.count = MAX_PORT; //Not Sure where to get info
+    dummy_switch.port_list.list = 
         (sai_object_id_t*)malloc(sizeof(sai_object_id_t)*
-                dummy_switch_db.port_list.count);
+                dummy_switch.port_list.count);
 
-    if (dummy_switch_db.port_list.list == NULL) {
+    if (dummy_switch.port_list.list == NULL) {
         return SAI_STATUS_FAILURE;
     }
 
     /* ... initialize the port array */
     
-    dummy_switch_db.cpu_port = 0;
-    dummy_switch_db.num_max_vrtr = MAX_VRTR;
-    dummy_switch_db.size_fdb_tbl = SIZE_FORWARD_TABLE;
-    dummy_switch_db.enable_link_route = false;
-    dummy_switch_db.max_temp = -1;
-    dummy_switch_db.min_pri_acl_tbl = 1;
-    dummy_switch_db.max_pri_acl_tbl = 7;
-    dummy_switch_db.min_pri_acl_ent = 1;
-    dummy_switch_db.max_pri_acl_ent = 7;
-    dummy_switch_db.default_stp_inst_id = 0;
+    dummy_switch.cpu_port = 0;
+    dummy_switch.num_max_vrtr = MAX_VRTR;
+    dummy_switch.size_fdb_tbl = SIZE_FORWARD_TABLE;
+    dummy_switch.enable_link_route = false;
+    dummy_switch.max_temp = -1;
+    dummy_switch.min_pri_acl_tbl = 1;
+    dummy_switch.max_pri_acl_tbl = 7;
+    dummy_switch.min_pri_acl_ent = 1;
+    dummy_switch.max_pri_acl_ent = 7;
+    dummy_switch.default_stp_inst_id = 0;
 
-    dummy_switch_db.mode_switch = SAI_SWITCHING_MODE_STORE_AND_FORWARD;
-    dummy_switch_db.enable_bcast_cpu_flood = false;
-    dummy_switch_db.enable_mcast_cpu_flood = false;
-    dummy_switch_db.act_ttl_one = SAI_PACKET_ACTION_TRAP;
-    dummy_switch_db.default_port_vlan_id = 1;
+    dummy_switch.mode_switch = SAI_SWITCHING_MODE_STORE_AND_FORWARD;
+    dummy_switch.enable_bcast_cpu_flood = false;
+    dummy_switch.enable_mcast_cpu_flood = false;
+    dummy_switch.act_ttl_one = SAI_PACKET_ACTION_TRAP;
+    dummy_switch.default_port_vlan_id = 1;
 
 
-    dummy_switch_db.default_mac_addr[0] = 0x00;
-    dummy_switch_db.default_mac_addr[1] = 0x10;
-    dummy_switch_db.default_mac_addr[2] = 0x20;
-    dummy_switch_db.default_mac_addr[3] = 0x30;
-    dummy_switch_db.default_mac_addr[4] = 0x40;
-    dummy_switch_db.default_mac_addr[5] = 0x50;
+    dummy_switch.default_mac_addr[0] = 0x00;
+    dummy_switch.default_mac_addr[1] = 0x10;
+    dummy_switch.default_mac_addr[2] = 0x20;
+    dummy_switch.default_mac_addr[3] = 0x30;
+    dummy_switch.default_mac_addr[4] = 0x40;
+    dummy_switch.default_mac_addr[5] = 0x50;
 
-    dummy_switch_db.num_max_learned_addr = 0;
-    dummy_switch_db.time_aging_fdb = 0;
-    dummy_switch_db.act_fdb_ucast_miss = SAI_PACKET_ACTION_FORWARD;
-    dummy_switch_db.act_fdb_bcast_miss = SAI_PACKET_ACTION_FORWARD;
-    dummy_switch_db.act_fdb_mcast_miss = SAI_PACKET_ACTION_FORWARD;
+    dummy_switch.num_max_learned_addr = 0;
+    dummy_switch.time_aging_fdb = 0;
+    dummy_switch.act_fdb_ucast_miss = SAI_PACKET_ACTION_FORWARD;
+    dummy_switch.act_fdb_bcast_miss = SAI_PACKET_ACTION_FORWARD;
+    dummy_switch.act_fdb_mcast_miss = SAI_PACKET_ACTION_FORWARD;
 
     srand(time(NULL));
-    dummy_switch_db.algo_lag_hash = SAI_HASH_CRC;
-    dummy_switch_db.seed_lag_hash = rand();
-    dummy_switch_db.fields_lag_hash.count = 0;        //type sai_s32_list_t
-    dummy_switch_db.fields_lag_hash.list = NULL;      
+    dummy_switch.algo_lag_hash = SAI_HASH_CRC;
+    dummy_switch.seed_lag_hash = rand();
+    dummy_switch.fields_lag_hash.count = 0;        //type sai_s32_list_t
+    dummy_switch.fields_lag_hash.list = NULL;      
 
-    dummy_switch_db.algo_ecmp_hash = SAI_HASH_CRC;
-    dummy_switch_db.seed_ecmp_hash = rand();
-    dummy_switch_db.fields_ecmp_hash.count = 0;       //type sai_s32_list_t
-    dummy_switch_db.fields_ecmp_hash.list = NULL;
+    dummy_switch.algo_ecmp_hash = SAI_HASH_CRC;
+    dummy_switch.seed_ecmp_hash = rand();
+    dummy_switch.fields_ecmp_hash.count = 0;       //type sai_s32_list_t
+    dummy_switch.fields_ecmp_hash.list = NULL;
 
-    dummy_switch_db.num_max_path_ecmp = 64;
+    dummy_switch.num_max_path_ecmp = 64;
 
-    dummy_switch_db.mode_port_brkout.breakout_mode =  SAI_PORT_BREAKOUT_MODE_1_LANE;
-    dummy_switch_db.mode_port_brkout.port_list.count = 0;
-    dummy_switch_db.mode_port_brkout.port_list.list = NULL;
+    dummy_switch.mode_port_brkout.breakout_mode =  SAI_PORT_BREAKOUT_MODE_1_LANE;
+    dummy_switch.mode_port_brkout.port_list.count = 0;
+    dummy_switch.mode_port_brkout.port_list.list = NULL;
 
     /* initialize ports */
 
     int i;
     bool ret;
-    port_db_t   *port_db_p, *last;
+    port_t   *port_p, *last;
 
-    last = dummy_switch_db.ports;
+    last = dummy_switch.ports;
 
-    for (i=0; i< dummy_switch_db.port_list.count; i++) {
-        port_db_p = (port_db_t *)malloc(sizeof(port_db_t));
-        if(port_db_p == NULL) {
+    for (i=0; i< dummy_switch.port_list.count; i++) {
+        port_p = (port_t *)malloc(sizeof(port_t));
+        if(port_p == NULL) {
             return SAI_STATUS_FAILURE;
         }
 
-        port_db_p->id = dummy_switch_db.port_list.list[i];
-        port_db_p->next = NULL;
-        ret = init_port_db(port_db_p);
+        port_p->id = dummy_switch.port_list.list[i];
+        port_p->next = NULL;
+        ret = init_port_db(port_p);
 
         if (!ret ) {
             return SAI_STATUS_FAILURE;
         }
         
-        if(dummy_switch_db.ports == NULL) {
-            dummy_switch_db.ports = port_db_p;
-            last = port_db_p;
+        if(dummy_switch.ports == NULL) {
+            dummy_switch.ports = port_p;
+            last = port_p;
         } else {
-            last->next = port_db_p;
-            last = port_db_p;
+            last->next = port_p;
+            last = port_p;
         }
 
         // Change State of Ports 
         dummy_switch_notification_handlers.on_port_state_change(
-                port_db_p->id, SAI_PORT_OPER_STATUS_UP);
+                port_p->id, SAI_PORT_OPER_STATUS_UP);
         
     }
 
 
     /* Change the State of Switch to Up */
-    dummy_switch_db.state_oper = SAI_SWITCH_OPER_STATUS_UP;
+    dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_UP;
     dummy_switch_notification_handlers.on_switch_state_change(SAI_SWITCH_OPER_STATUS_UP);
 
     return SAI_STATUS_SUCCESS;
@@ -204,13 +204,13 @@ dummy_shutdown_switch(
     //Change State of Ports 
     /* ... Release Port_DB */
 
-    free(dummy_switch_db.port_list.list);
-    free(dummy_switch_db.fields_lag_hash.list);
-    free(dummy_switch_db.fields_ecmp_hash.list);
-    free(dummy_switch_db.mode_port_brkout.port_list.list);
+    free(dummy_switch.port_list.list);
+    free(dummy_switch.fields_lag_hash.list);
+    free(dummy_switch.fields_ecmp_hash.list);
+    free(dummy_switch.mode_port_brkout.port_list.list);
 
     /* Change the State of Switch to Down */
-    dummy_switch_db.state_oper = SAI_SWITCH_OPER_STATUS_DOWN;
+    dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_DOWN;
     dummy_switch_notification_handlers.on_switch_state_change(SAI_SWITCH_OPER_STATUS_DOWN);
 }
 
@@ -259,90 +259,90 @@ dummy_set_switch_attr(
 
         //Read Write
         case SAI_SWITCH_ATTR_SWITCHING_MODE:
-            dummy_switch_db.mode_switch = attr->value.u32;
+            dummy_switch.mode_switch = attr->value.u32;
             break;
 
         case SAI_SWITCH_ATTR_BCAST_CPU_FLOOD_ENABLE:
-            dummy_switch_db.enable_bcast_cpu_flood = attr->value.booldata;
+            dummy_switch.enable_bcast_cpu_flood = attr->value.booldata;
             break;
 
         case SAI_SWITCH_ATTR_MCAST_CPU_FLOOD_ENABLE:
-            dummy_switch_db.enable_mcast_cpu_flood = attr->value.booldata;
+            dummy_switch.enable_mcast_cpu_flood = attr->value.booldata;
             break;
 
 
         case SAI_SWITCH_ATTR_VIOLATION_TTL1_ACTION:
-            dummy_switch_db.act_ttl_one = attr->value.u8;
+            dummy_switch.act_ttl_one = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
-            dummy_switch_db.default_port_vlan_id = attr->value.u16;
+            dummy_switch.default_port_vlan_id = attr->value.u16;
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            dummy_switch_db.default_mac_addr[0] = attr->value.mac[0];
-            dummy_switch_db.default_mac_addr[1] = attr->value.mac[1];
-            dummy_switch_db.default_mac_addr[2] = attr->value.mac[2];
-            dummy_switch_db.default_mac_addr[3] = attr->value.mac[3];
-            dummy_switch_db.default_mac_addr[4] = attr->value.mac[4];
-            dummy_switch_db.default_mac_addr[5] = attr->value.mac[5];
+            dummy_switch.default_mac_addr[0] = attr->value.mac[0];
+            dummy_switch.default_mac_addr[1] = attr->value.mac[1];
+            dummy_switch.default_mac_addr[2] = attr->value.mac[2];
+            dummy_switch.default_mac_addr[3] = attr->value.mac[3];
+            dummy_switch.default_mac_addr[4] = attr->value.mac[4];
+            dummy_switch.default_mac_addr[5] = attr->value.mac[5];
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:
-            dummy_switch_db.num_max_learned_addr = attr->value.u32;
+            dummy_switch.num_max_learned_addr = attr->value.u32;
             break;
 
         case SAI_SWITCH_ATTR_FDB_AGING_TIME:
-            dummy_switch_db.time_aging_fdb = attr->value.u32;
+            dummy_switch.time_aging_fdb = attr->value.u32;
             break;
 
         case SAI_SWITCH_ATTR_FDB_UNICAST_MISS_ACTION:
-            dummy_switch_db.act_fdb_ucast_miss = attr->value.u8;
+            dummy_switch.act_fdb_ucast_miss = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_FDB_BROADCAST_MISS_ACTION:
-            dummy_switch_db.act_fdb_bcast_miss = attr->value.u8;
+            dummy_switch.act_fdb_bcast_miss = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_FDB_MULTICAST_MISS_ACTION:
-            dummy_switch_db.act_fdb_mcast_miss = attr->value.u8;
+            dummy_switch.act_fdb_mcast_miss = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_ALGO:
-            dummy_switch_db.algo_lag_hash = attr->value.u8;
+            dummy_switch.algo_lag_hash = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_SEED:
-            dummy_switch_db.seed_lag_hash = attr->value.u32;
+            dummy_switch.seed_lag_hash = attr->value.u32;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_FIELDS:
-            dummy_switch_db.fields_lag_hash = attr->value.s32list;
+            dummy_switch.fields_lag_hash = attr->value.s32list;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_ALGO:
-            dummy_switch_db.algo_ecmp_hash = attr->value.u8;
+            dummy_switch.algo_ecmp_hash = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_SEED:
-            dummy_switch_db.seed_ecmp_hash = attr->value.u32;
+            dummy_switch.seed_ecmp_hash = attr->value.u32;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_FIELDS:
-            dummy_switch_db.fields_ecmp_hash = attr->value.s32list;
+            dummy_switch.fields_ecmp_hash = attr->value.s32list;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_MAX_PATHS:
-            dummy_switch_db.num_max_path_ecmp = attr->value.u32;
+            dummy_switch.num_max_path_ecmp = attr->value.u32;
             break;
 
         //Write
         case SAI_SWITCH_ATTR_PORT_BREAKOUT:
-            dummy_switch_db.mode_port_brkout = attr->value.portbreakout;
+            dummy_switch.mode_port_brkout = attr->value.portbreakout;
             break;
 
         case SAI_SWITCH_ATTR_CUSTOM_RANGE_BASE:
-            dummy_switch_db.custom_range_base = attr->value.u64;
+            dummy_switch.custom_range_base = attr->value.u64;
             break;
 
         default:
@@ -364,134 +364,134 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
     switch (attr->id) {
         //Read Only
         case SAI_SWITCH_ATTR_PORT_NUMBER:
-            attr->value.u32 = dummy_switch_db.num_max_port;
+            attr->value.u32 = dummy_switch.num_max_port;
             break;
 
         case SAI_SWITCH_ATTR_PORT_LIST:
-            attr->value.objlist = dummy_switch_db.port_list;
+            attr->value.objlist = dummy_switch.port_list;
             break;
 
         case SAI_SWITCH_ATTR_CPU_PORT:
-            attr->value.oid = dummy_switch_db.cpu_port;
+            attr->value.oid = dummy_switch.cpu_port;
             break;
 
         case SAI_SWITCH_ATTR_MAX_VIRTUAL_ROUTERS:
-            attr->value.u32 = dummy_switch_db.num_max_vrtr;
+            attr->value.u32 = dummy_switch.num_max_vrtr;
             break;
 
         case SAI_SWITCH_ATTR_FDB_TABLE_SIZE:
-            attr->value.u32 = dummy_switch_db.size_fdb_tbl;
+            attr->value.u32 = dummy_switch.size_fdb_tbl;
             break;
 
         case SAI_SWITCH_ATTR_ON_LINK_ROUTE_SUPPORTED:
-            attr->value.booldata = dummy_switch_db.enable_link_route;
+            attr->value.booldata = dummy_switch.enable_link_route;
             break;
 
         case SAI_SWITCH_ATTR_OPER_STATUS:
-            attr->value.u8 = dummy_switch_db.state_oper;
+            attr->value.u8 = dummy_switch.state_oper;
             break;
 
         case SAI_SWITCH_ATTR_MAX_TEMP:
-            attr->value.s32 = dummy_switch_db.max_temp;
+            attr->value.s32 = dummy_switch.max_temp;
             break;
 
         case SAI_SWITCH_ATTR_ACL_TABLE_MINIMUM_PRIORITY:
-            attr->value.u32 = dummy_switch_db.min_pri_acl_tbl;
+            attr->value.u32 = dummy_switch.min_pri_acl_tbl;
             break;
 
         case SAI_SWITCH_ATTR_ACL_TABLE_MAXIMUM_PRIORITY:
-            attr->value.u32 = dummy_switch_db.max_pri_acl_tbl;
+            attr->value.u32 = dummy_switch.max_pri_acl_tbl;
             break;
 
         case SAI_SWITCH_ATTR_ACL_ENTRY_MINIMUM_PRIORITY:
-            attr->value.u32 = dummy_switch_db.min_pri_acl_ent;
+            attr->value.u32 = dummy_switch.min_pri_acl_ent;
             break;
 
         case SAI_SWITCH_ATTR_ACL_ENTRY_MAXIMUM_PRIORITY:
-            attr->value.u32 = dummy_switch_db.max_pri_acl_ent;
+            attr->value.u32 = dummy_switch.max_pri_acl_ent;
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_STP_INST_ID:
-            attr->value.oid = dummy_switch_db.default_stp_inst_id;
+            attr->value.oid = dummy_switch.default_stp_inst_id;
             break;
 
 
         //Read Write
         case SAI_SWITCH_ATTR_SWITCHING_MODE:
-            attr->value.u32 = dummy_switch_db.mode_switch;
+            attr->value.u32 = dummy_switch.mode_switch;
             break;
 
         case SAI_SWITCH_ATTR_BCAST_CPU_FLOOD_ENABLE:
-            attr->value.booldata =  dummy_switch_db.enable_bcast_cpu_flood;
+            attr->value.booldata =  dummy_switch.enable_bcast_cpu_flood;
             break;
 
         case SAI_SWITCH_ATTR_MCAST_CPU_FLOOD_ENABLE:
-            attr->value.booldata = dummy_switch_db.enable_mcast_cpu_flood;
+            attr->value.booldata = dummy_switch.enable_mcast_cpu_flood;
             break;
 
         case SAI_SWITCH_ATTR_VIOLATION_TTL1_ACTION:
-            attr->value.u8 = dummy_switch_db.act_ttl_one;
+            attr->value.u8 = dummy_switch.act_ttl_one;
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
-            attr->value.u16 = dummy_switch_db.default_port_vlan_id;
+            attr->value.u16 = dummy_switch.default_port_vlan_id;
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            attr->value.mac[0] = dummy_switch_db.default_mac_addr[0];
-            attr->value.mac[1] = dummy_switch_db.default_mac_addr[1];
-            attr->value.mac[2] = dummy_switch_db.default_mac_addr[2];
-            attr->value.mac[3] = dummy_switch_db.default_mac_addr[3];
-            attr->value.mac[4] = dummy_switch_db.default_mac_addr[4];
-            attr->value.mac[5] = dummy_switch_db.default_mac_addr[5];
+            attr->value.mac[0] = dummy_switch.default_mac_addr[0];
+            attr->value.mac[1] = dummy_switch.default_mac_addr[1];
+            attr->value.mac[2] = dummy_switch.default_mac_addr[2];
+            attr->value.mac[3] = dummy_switch.default_mac_addr[3];
+            attr->value.mac[4] = dummy_switch.default_mac_addr[4];
+            attr->value.mac[5] = dummy_switch.default_mac_addr[5];
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:
-            attr->value.u32 = dummy_switch_db.num_max_learned_addr;
+            attr->value.u32 = dummy_switch.num_max_learned_addr;
             break;
 
         case SAI_SWITCH_ATTR_FDB_AGING_TIME:
-            attr->value.u32 = dummy_switch_db.time_aging_fdb;
+            attr->value.u32 = dummy_switch.time_aging_fdb;
             break;
 
         case SAI_SWITCH_ATTR_FDB_UNICAST_MISS_ACTION:
-            attr->value.u8 = dummy_switch_db.act_fdb_ucast_miss;
+            attr->value.u8 = dummy_switch.act_fdb_ucast_miss;
             break;
 
         case SAI_SWITCH_ATTR_FDB_BROADCAST_MISS_ACTION:
-            attr->value.u8 = dummy_switch_db.act_fdb_bcast_miss;
+            attr->value.u8 = dummy_switch.act_fdb_bcast_miss;
             break;
 
         case SAI_SWITCH_ATTR_FDB_MULTICAST_MISS_ACTION:
-            attr->value.u8 = dummy_switch_db.act_fdb_mcast_miss;
+            attr->value.u8 = dummy_switch.act_fdb_mcast_miss;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_ALGO:
-            attr->value.u8 = dummy_switch_db.algo_lag_hash;
+            attr->value.u8 = dummy_switch.algo_lag_hash;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_SEED:
-            attr->value.u32 = dummy_switch_db.seed_lag_hash;
+            attr->value.u32 = dummy_switch.seed_lag_hash;
             break;
 
         case SAI_SWITCH_ATTR_LAG_HASH_FIELDS:
-            attr->value.s32list = dummy_switch_db.fields_lag_hash;
+            attr->value.s32list = dummy_switch.fields_lag_hash;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_ALGO:
-            attr->value.u8 = dummy_switch_db.algo_ecmp_hash = attr->value.u8;
+            attr->value.u8 = dummy_switch.algo_ecmp_hash = attr->value.u8;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_SEED:
-            attr->value.u32 = dummy_switch_db.seed_ecmp_hash;
+            attr->value.u32 = dummy_switch.seed_ecmp_hash;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_HASH_FIELDS:
-            attr->value.s32list = dummy_switch_db.fields_ecmp_hash;
+            attr->value.s32list = dummy_switch.fields_ecmp_hash;
             break;
 
         case SAI_SWITCH_ATTR_ECMP_MAX_PATHS:
-            attr->value.u32 = dummy_switch_db.num_max_path_ecmp;
+            attr->value.u32 = dummy_switch.num_max_path_ecmp;
             break;
 
         //Write

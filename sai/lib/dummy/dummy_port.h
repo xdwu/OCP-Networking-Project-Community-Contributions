@@ -50,7 +50,7 @@ sai_port_api_t dummy_port_method_table;
 
 /*Internal Functions*/
 bool 
-init_port(port_db_t *port_db_p);
+init_port(port_t *port_p);
 
 
 
