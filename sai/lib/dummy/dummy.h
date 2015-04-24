@@ -74,6 +74,143 @@ sai_switch_notification_t dummy_switch_notification_handlers;
 
 /* Public Data Structure */
 
+typedef sturct _vlan_t {
+    /* Internal Data Structure */
+    struct _vlan_t           *next;
+
+    /* Read Write */
+    uint32_t                max_learn_addr;
+    sai_object_id_t         stp_inst_id;
+
+    /* CUSTOM RANGE BASE */ //?
+} vlan_t;
+
+
+typedef struct stp_t {
+    /* Internal Data Structure */
+    struct _stp_t           *next;
+
+    /* Read Only */
+    sai_vlan_list_t         vlan_list;
+} stp_t;
+
+typedef struct _smpl_pkt_t {
+    /* Internal Data Structure */
+    struct _smpl_pkt_t             *next;
+
+    /* Read Only */
+    /* Read Write */
+    uint32_t                    rate;
+    sai_samplepacket_type_t     type;
+
+} smpl_pkt_t;
+
+
+typedef struct _rtr_intf_t {
+    /* Internal Data Structure */
+    struct _rtr_intf_t             *next;
+
+    /* Read Only */
+    sai_object_id_t                 vrtr_id;
+    sai_router_interface_type_t     type;
+    sai_object_id_t                 port_id;
+    sai_vlan_id_t                   valn_id;
+
+    /* Read Write */
+    sai_mac_t                       src_mac;
+    bool                            admin_v4_state;
+    bool                            admin_v6_state;
+    uint32_t                        mtu;
+
+    /* CUSTOM RANGE BASE */
+} rtr_intf_t;
+
+
+typedef struct _vrtr_t {
+    /* Internal Data Structure */
+    struct _vrtr_t             *next;
+
+    /* Read Only */
+    /* Read Write */
+    bool        admin_v4_state;
+    bool        admin_v6_state;
+    sai_mac_t   src_mac;
+    sai_packet_action_t     act_ttl_one;
+    sai_packet_action_t     act_ip;
+
+    /* CUSTOM RANGE BASE */
+} vrtr_t;
+
+
+typedef struct _route_t {
+    /* Internal Data Structure */
+    struct _route_t             *next;
+
+    /* Read Only */
+    /* Read Write */
+    sai_packet_action_t         act_fwd;
+    uint8_t                     trap_pri;   //deafult 0
+    sai_object_id_t             nexthop_id;
+
+    /* CUSTOM RANGE BASE */
+} route_t;
+
+
+typedef _qos_t {
+    /* Internal Data Structure */
+    struct _qos_t     *next;
+
+    /* Read Only */
+    /* Read Write */
+    uint32_t                        num_cos_class;  //?
+    sai_cos_port_trust_t            mode_trust;
+    sai_cos_sched_t                 algo_sched;
+    uint32_t                        weight_sched; //?
+    uint32_t                        bw_limit;   //?
+    uint32_t                        buf_limit;  //?
+
+    /* CUSTOM RANGE BASE */
+} qos_t;
+
+typedef struct _next_hop_grp_t {
+    /* Internal Data Structure */
+    struct _next_hop_grp_t     *next;
+
+    /* Read Only */
+    uint32_t                        num_nexthop;
+
+    /* Read Write */
+    sai_next_hop_group_type_t       type;
+    sai_object_list_t               next_hop_list;
+
+    /* CUSTOM RANGE BASE */
+} next_hop_grp_t;
+
+
+typedef struct _next_hop_t {
+    /* Internal Data Structure */
+    struct _next_hop_t     *next;
+
+    /* Read Write */
+    sai_next_hop_type_t         type;
+    sai_ip_address_t            ip_addr_v4;
+    sai_object_id_t             rtr_intf_id;
+
+    /* CUSTOM RANGE BASE */
+} next_hop_t;
+
+typedef struct _neighbor_t {
+    /* Internal Data Structure */
+    struct _neighbor_t     *next;
+
+    /* Read Write */
+    sai_mac_t               dst_mac;
+    sai_packet_action_t     act_fwd;
+
+    /*CUSTOM RANGE BASE */
+
+} neighbor_t;
+
 typedef struct _mirror_sess_t {
     /* Internal Data Structure */
     struct _mirror_sess_t     *next;
