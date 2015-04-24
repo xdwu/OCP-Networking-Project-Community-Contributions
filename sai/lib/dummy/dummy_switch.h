@@ -89,5 +89,12 @@ dummy_get_switch_attr(
 
 sai_switch_api_t dummy_switch_method_table;
 
+/*
+ * Internal Functions
+ */
+
+void show_switch(void); 
+
+
 
 #endif //__DUMMY_SWITCH_H_

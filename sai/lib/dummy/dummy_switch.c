@@ -25,7 +25,11 @@ void
 dummy_hndlr_switch_state_change(
     _In_ sai_switch_oper_status_t switch_oper_status)
 {
-    printf("%s\n", __FUNCTION__);
+    printf("%s state -> %s\n", __FUNCTION__, 
+            (switch_oper_status==0)?"UNKNOWN":
+            (switch_oper_status==1)?"UP":
+            (switch_oper_status==2)?"DOWN":
+            (switch_oper_status==3)?"FAIL":"??");
 }
 
 void
@@ -43,7 +47,13 @@ dummy_hndlr_port_state_change(
     _In_ sai_object_id_t port_id,
     _In_ sai_port_oper_status_t port_status)
 {
-    printf("%s\n", __FUNCTION__);
+    printf("%s port[0x%8lx] -> %s\n", __FUNCTION__, port_id,
+            (port_status==0)?"UNKNOWN":
+            (port_status==1)?"UP":
+            (port_status==2)?"DOWN":
+            (port_status==3)?"TESTING":
+            (port_status==4)?"NOT_PRESENT":"??");
+
 }
 
 
@@ -72,7 +82,7 @@ sai_switch_notification_t dummy_switch_notification_handlers = {
 /*---------------------------------------------*/
 /* SWITCH */
 /*---------------------------------------------*/
-#define MAX_PORT            8
+#define MAX_PORT            2
 #define MAX_VRTR            2
 #define SIZE_FORWARD_TABLE  32768
 
@@ -89,7 +99,7 @@ dummy_init_switch(
     dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_UNKNOWN;
     dummy_switch.num_max_port = MAX_PORT;
 
-    dummy_switch.port_list.count = MAX_PORT; //Not Sure where to get info
+    dummy_switch.port_list.count = dummy_switch.num_max_port; //Not Sure where to get info
     dummy_switch.port_list.list = 
         (sai_object_id_t*)malloc(sizeof(sai_object_id_t)*
                 dummy_switch.port_list.count);
@@ -98,7 +108,14 @@ dummy_init_switch(
         return SAI_STATUS_FAILURE;
     }
 
-    /* ... initialize the port array */
+    int i;
+    uint64_t id;
+    for(i=0; i<dummy_switch.port_list.count; i++) {
+        if(!acquire_id(&id)){
+            return SAI_STATUS_FAILURE;
+        }
+        dummy_switch.port_list.list[i] = id;
+    }
     
     dummy_switch.cpu_port = 0;
     dummy_switch.num_max_vrtr = MAX_VRTR;
@@ -150,7 +167,6 @@ dummy_init_switch(
 
     /* initialize ports */
 
-    int i;
     bool ret;
     port_t   *port_p, *last;
 
@@ -164,7 +180,7 @@ dummy_init_switch(
 
         port_p->id = dummy_switch.port_list.list[i];
         port_p->next = NULL;
-        ret = init_port_db(port_p);
+        ret = init_port(port_p);
 
         if (!ret ) {
             return SAI_STATUS_FAILURE;
@@ -189,6 +205,7 @@ dummy_init_switch(
     dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_UP;
     dummy_switch_notification_handlers.on_switch_state_change(SAI_SWITCH_OPER_STATUS_UP);
 
+    show_switch();
     return SAI_STATUS_SUCCESS;
 }
 
@@ -237,8 +254,9 @@ dummy_set_switch_attr(
 {
     printf("%s\n", __FUNCTION__);
 
-    if(attr == NULL)
+    if(attr == NULL) {
         return SAI_STATUS_FAILURE;
+    }
 
     switch(attr->id) {
         //Read Only
@@ -542,3 +560,121 @@ sai_switch_api_t dummy_switch_method_table = {
     dummy_set_switch_attr,
     dummy_get_switch_attr
 };
+
+/* Internal Functions */
+
+void show_switch(void)
+{
+    printf("======== Switch ====================\n");
+    printf("  state: %s\n", 
+            (dummy_switch.state_oper == 0)? "UNKNOWN":
+            (dummy_switch.state_oper == 1)? "UP":
+            (dummy_switch.state_oper == 2)? "DOWN":
+            (dummy_switch.state_oper == 3)? "FAILED":"??");
+
+    printf("  # of ports: %d\n", dummy_switch.num_max_port);
+    printf("  CPU port: %lu\n", dummy_switch.cpu_port);
+    printf("  # of virtual router: %d\n", dummy_switch.num_max_vrtr);
+    printf("  size of fwd table: %d\n", dummy_switch.size_fdb_tbl);
+    printf("  local subnet routing: %s\n", (dummy_switch.enable_link_route)?"true":"false");
+    printf("  max temperature: %d\n", dummy_switch.max_temp);
+    printf("  min priority acl table: %d\n", dummy_switch.min_pri_acl_tbl);
+    printf("  max priority acl table: %d\n", dummy_switch.max_pri_acl_tbl);
+    printf("  min priority acl entry: %d\n", dummy_switch.min_pri_acl_ent);
+    printf("  max priority acl entry: %d\n", dummy_switch.max_pri_acl_ent);
+    printf("  default STP instance id: %lu\n", dummy_switch.default_stp_inst_id);
+    printf("  switching mode: %s\n", 
+            (dummy_switch.mode_switch == 0)?"CUT_THROUGH":
+            (dummy_switch.mode_switch == 1)?"STORE_AND_FORWARD":"??");
+
+    printf("  L2 broadcast flood control to CPU port: %s\n", 
+            dummy_switch.enable_bcast_cpu_flood?"true":"false");
+
+    printf("  L2 multicast flood control to CPU port: %s\n", 
+            dummy_switch.enable_mcast_cpu_flood?"true":"false");
+
+    printf("  action for packets with TTL=0/TTL=1: %s\n",
+            (dummy_switch.act_ttl_one == 0)? "DROP":
+            (dummy_switch.act_ttl_one ==1)? "FORWARD":
+            (dummy_switch.act_ttl_one ==2)? "TRAP":
+            (dummy_switch.act_ttl_one ==3)? "LOG":"??");
+
+    printf("  default vlan id for ports not in any group: %d\n", 
+            dummy_switch.default_port_vlan_id);
+
+    printf("  default switch MAC address: 0x%02x%02x%02x %02x%02x%02x \n",
+            dummy_switch.default_mac_addr[0], 
+            dummy_switch.default_mac_addr[1], 
+            dummy_switch.default_mac_addr[2],
+            dummy_switch.default_mac_addr[3], 
+            dummy_switch.default_mac_addr[4], 
+            dummy_switch.default_mac_addr[5]);
+ 
+    printf("  max # of learned MAC address: %d\n", dummy_switch.num_max_learned_addr);
+    printf("  dynamic FDB entry aging time (sec): %d\n", dummy_switch.time_aging_fdb);
+
+    printf("  action control w/ unknown destination address unicast: %s\n",
+            (dummy_switch.act_fdb_ucast_miss == 0)? "DROP":
+            (dummy_switch.act_fdb_ucast_miss ==1)? "FORWARD":
+            (dummy_switch.act_fdb_ucast_miss ==2)? "TRAP":
+            (dummy_switch.act_fdb_ucast_miss ==3)? "LOG":"??");
+
+    printf("  action control w/ unknown destination address broadcast: %s\n",
+            (dummy_switch.act_fdb_bcast_miss == 0)? "DROP":
+            (dummy_switch.act_fdb_bcast_miss ==1)? "FORWARD":
+            (dummy_switch.act_fdb_bcast_miss ==2)? "TRAP":
+            (dummy_switch.act_fdb_bcast_miss ==3)? "LOG":"??");
+
+    printf("  action control w/ unknown destination address multicast: %s\n",
+            (dummy_switch.act_fdb_mcast_miss == 0)? "DROP":
+            (dummy_switch.act_fdb_mcast_miss ==1)? "FORWARD":
+            (dummy_switch.act_fdb_mcast_miss ==2)? "TRAP":
+            (dummy_switch.act_fdb_mcast_miss ==3)? "LOG":"??");
+
+    printf("  hash algorithm for all LAGs: %s\n",
+            (dummy_switch.algo_lag_hash == 1) ? "XOR":
+            (dummy_switch.algo_lag_hash == 2) ? "CRC":
+            (dummy_switch.algo_lag_hash == 3) ? "RANDOM":"??");
+
+    printf("  hash seed for all LAGs: %u\n", dummy_switch.seed_lag_hash);
+
+    printf("  hash fields for all LAGs: count %d\n", 
+            dummy_switch.fields_lag_hash.count);
+
+    printf("  hash algorithm for all ECMPs: %s\n",
+            (dummy_switch.algo_ecmp_hash == 1) ? "XOR":
+            (dummy_switch.algo_ecmp_hash == 2) ? "CRC":
+            (dummy_switch.algo_ecmp_hash == 3) ? "RANDOM":"??");
+
+    printf("  hash seed for all ECMPs: %u\n", dummy_switch.seed_ecmp_hash);
+
+    printf("  hash fields for all ECMPs: count %d\n", 
+            dummy_switch.fields_ecmp_hash.count);
+
+    printf("  ECMP max # of paths per group: %d\n", dummy_switch.num_max_path_ecmp);
+
+    printf("  port breakout mode: %s\n", 
+            (dummy_switch.mode_port_brkout.breakout_mode == 1)? "1 LANE":
+            (dummy_switch.mode_port_brkout.breakout_mode == 2)? "2 LANE":
+            (dummy_switch.mode_port_brkout.breakout_mode == 4)? "4 LANE":"??");
+
+    printf("  custom range base: 0x%8x\n", SAI_SWITCH_ATTR_CUSTOM_RANGE_BASE);
+
+    printf("  ports: ");
+    int i;
+    for(i=0; i<dummy_switch.port_list.count; i++) {
+        printf("0x%8lx ", dummy_switch.port_list.list[i]);
+    }
+    printf("\n");
+
+    port_t *p;
+
+    p = dummy_switch.ports;
+    while(p) {
+        show_port(p);
+        p = p->next;
+    }
+
+    printf("\n");
+    return;
+}

@@ -197,13 +197,13 @@ int main(int argc, char **argv)
     attr.id = SAI_SWITCH_ATTR_SRC_MAC_ADDRESS;
     status = sai_switch_api->get_switch_attribute(1, &attr);
     if (status != SAI_STATUS_SUCCESS) {
-        printf("Fail to get SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch %x\n", status);
+        printf("Fail to get SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch, code %x\n", status);
         return 1;
     }
 
     status = sai_switch_api->set_switch_attribute(&attr);
     if (status != SAI_STATUS_SUCCESS) {
-        printf("Fail to set SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch %x\n", status);
+        printf("Fail to set SAI_SWITCH_ATTR_SRC_MAC_ADDRESS for the switch, code %x\n", status);
         return 1;
     }
 

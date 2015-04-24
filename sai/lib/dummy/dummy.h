@@ -74,7 +74,7 @@ sai_switch_notification_t dummy_switch_notification_handlers;
 
 /* Public Data Structure */
 
-typedef sturct _vlan_t {
+typedef struct _vlan_t {
     /* Internal Data Structure */
     struct _vlan_t           *next;
 
@@ -156,7 +156,7 @@ typedef struct _route_t {
 } route_t;
 
 
-typedef _qos_t {
+typedef struct _qos_t {
     /* Internal Data Structure */
     struct _qos_t     *next;
 
