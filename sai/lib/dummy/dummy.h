@@ -74,6 +74,129 @@ sai_switch_notification_t dummy_switch_notification_handlers;
 
 /* Public Data Structure */
 
+typedef struct _mirror_sess_t {
+    /* Internal Data Structure */
+    struct _mirror_sess_t     *next;
+
+    /* Attribute */
+    
+    /* Read Only */
+    /* Read Write */
+    sai_mirror_type_t       type;
+    sai_object_id_t         monitor_port;
+    uint8_t                 class_srv;
+    uint16_t                vlan_tpid;
+    sai_vlan_id_t           vlan_id;
+    uint8_t                 vlan_pri;
+
+    sai_erspan_encapsulation_type_t encap_type;
+    uint8_t                 iphdr_ver;
+    uint8_t                 tos;
+    uint8_t                 ttl;
+    sai_ip_address_t        src_ip_addr;
+    sai_ip_address_t        dst_ip_addr;
+    
+    sai_mac_t               src_mac;
+    sai_mac_t               dst_mac;
+
+    uint16_t                gre_type;
+
+} mirror_sess_t;
+
+
+typedef struct _lag_t {
+    /* Internal Data Structure */
+    struct _lag_t     *next;
+
+    /* Attribute */
+    
+    /* Read Only */
+    /* Read Write */
+    sai_object_list_t   port_list;
+
+} lag_t;
+
+typedef struct _host_intf_t {
+    /* Internal Data Structure */
+    struct _host_intf_t     *next;
+
+
+    /* Attribute */
+    
+    /* Read Only */
+    /* Read Write */
+    sai_object_id_t assn_id;
+    char*   name;
+
+    /*CUSTOM RANGE BASE */
+} host_intf_t;
+
+
+typedef struct _acl_tbl_t {
+    /* Internal Data Structure */
+    struct _acl_tbl_t   *next;
+
+    /* Read Only */
+    /* Read Write */
+    sai_acl_stage_t     stage;
+    sai_uint32_t        priority;
+
+    /* FIELD_START*/
+    sai_ip6_t           src_addr_v6;    //default SA_ACT_TABLE_ATTR_FIELD_START
+    sai_ip6_t           dst_addr_v6;
+
+    sai_mac_t           src_mac;
+    sai_mac_t           dst_mac;
+
+    sai_ip4_t           src_addr_v4;
+    sai_ip4_t           dst_addr_v4;
+
+    /*In-Ports*/
+    /*Out-Ports*/
+
+    /*In-Port*/
+    /*Out-Port*/
+
+    /*Outer Vlan id */
+    /*Outer Vlan Priority */
+    /*Outer Vlan CFI */
+
+    /*Inner Vlan id */
+    /*Inner Vlan Priority */
+    /*Inner Vlan CFI */
+    
+    /*L4 Dst Port*/
+    /*EtherType*/
+
+    /*IP Protocol*/
+    /*IP DSCP */
+    /*IP TTL*/
+    /*IP TOS*/
+    /*IP FLAGS*/
+    /*TCP FLAGS*/
+    /*IP Type*/
+    /*IP FRAG*/
+    /*IPV6 Flow Label*/
+    /*Class-Of-Service*/
+    /*End of Table Field*/
+
+    /*CUSTOM RANGE BASE*/
+} acl_tbl_t;
+
+
+
+typedef struct _fdb_entry_t {
+    /* Internal Data Structure */
+    struct _fdb_entry_t *next;
+
+    /* Attributes */
+    /* Read Only */
+    sai_fdb_entry_type_t    type;
+    sai_object_id_t         port_id;
+    sai_packet_action_t     act_pkt;
+
+} fdb_entry_t;
+
 
 typedef struct _port_t {
     /* Internal Data Structure */
