@@ -100,7 +100,7 @@ typedef struct _port_db_t {
     bool  enable_drop_tagged;               //default false
 
     sai_port_internal_loopback_mode_t mode_int_lpbk; //default SAI_PORT_INTERNAL_LOOPBACK_NONE
-    sai_port_fdb_learning_mode_t mode_fdb_learning;  //deafult SAI_PORT_LEARNING_MODE_HW
+    sai_port_fdb_learning_mode_t mode_fdb_learn;  //deafult SAI_PORT_LEARN_MODE_HW
 
     bool enable_update_dscp;                //default false
     uint32_t mtu;                           //default 1514

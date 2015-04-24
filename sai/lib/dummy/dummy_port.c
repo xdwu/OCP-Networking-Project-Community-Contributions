@@ -95,7 +95,7 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_FDB_LEARNING:
-            dummy_port_db_p->mode_fdb_learning = attr->value.u8;
+            dummy_port_db_p->mode_fdb_learn = attr->value.u8;
             break;
 
         case SAI_PORT_ATTR_UPDATE_DSCP:
@@ -223,7 +223,7 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_FDB_LEARNING:
-            attr->value.u8 = dummy_port_db_p->mode_fdb_learning;
+            attr->value.u8 = dummy_port_db_p->mode_fdb_learn;
             break;
 
         case SAI_PORT_ATTR_UPDATE_DSCP:
@@ -342,9 +342,76 @@ sai_port_api_t dummy_port_method_table = {
 };
 
 
+/*
+ * Internal Functions
+ */
 bool
 init_port_db(port_db_t *port_db_p)
 {
+    if (port_db_p == NULL) {
+        return false;
+    }
+
+    void *p;
+
+    /* Should read from the platform */
+    port_db_p->type = SAI_PORT_TYPE_LOGICAL;
+    port_db_p->state_port = SAI_PORT_OPER_STATUS_UNKNOWN;
+
+    p = (sai_u32_list_t*)malloc(sizeof(sai_u32_list_t));
+    if(p==NULL) {
+        return false;
+    }
+    ((sai_u32_list_t*)p)->count = 0;
+    ((sai_u32_list_t*)p)->list = NULL;
+    port_db_p->hw_lane_lst = *(sai_u32_list_t*)p;
+
+    p = (sai_u32_list_t*)malloc(sizeof(sai_u32_list_t));
+    if(p==NULL) {
+        return false;
+    }
+    ((sai_u32_list_t*)p)->count = 0;
+    ((sai_u32_list_t*)p)->list = NULL;
+    port_db_p->sptd_brkout_mode_lst = *(sai_u32_list_t*)p;
+
+    port_db_p->mode_curr_brkout = SAI_PORT_BREAKOUT_MODE_1_LANE;
+
+
+    port_db_p->speed = 10;
+    port_db_p->default_vlan_pri = 0;
+    port_db_p->enable_ingress_filtering = false;
+    port_db_p->enable_drop_untagged = false;
+    port_db_p->enable_drop_tagged = false;
+    port_db_p->mode_int_lpbk = SAI_PORT_INTERNAL_LOOPBACK_NONE;
+    port_db_p->mode_fdb_learn = SAI_PORT_LEARN_MODE_HW;
+    port_db_p->enable_update_dscp = false;
+    port_db_p->mtu = 1514;
+    port_db_p->enable_flood_storm_cntl = false;
+    port_db_p->enable_bcast_storm_cntl = false;
+    port_db_p->enable_mcast_storm_cntl = false;
+    port_db_p->mode_globle_flow_cntl = SAI_PORT_FLOW_CONTROL_DISABLE;
+    port_db_p->num_max_learned_addr = 0;
+    port_db_p->act_fdb_learn_limit = SAI_PACKET_ACTION_DROP;
+
+    p = (sai_u32_list_t*)malloc(sizeof(sai_object_list_t));
+    if(p==NULL) {
+        return false;
+    }
+    ((sai_object_list_t*)p)->count = 0;
+    ((sai_object_list_t*)p)->list = NULL;
+    port_db_p->ingress_mir_sess_lst = *(sai_object_list_t*)p;
+
+    p = (sai_u32_list_t*)malloc(sizeof(sai_object_list_t));
+    if(p==NULL) {
+        return false;
+    }
+    ((sai_object_list_t*)p)->count = 0;
+    ((sai_object_list_t*)p)->list = NULL;
+    port_db_p->egress_mir_sess_lst = *(sai_object_list_t*)p;
+
+    port_db_p->ingress_smpl_pkt_id = SAI_NULL_OBJECT_ID;
+    port_db_p->egress_smpl_pkt_id = SAI_NULL_OBJECT_ID;
+
     return true;
 }
 
