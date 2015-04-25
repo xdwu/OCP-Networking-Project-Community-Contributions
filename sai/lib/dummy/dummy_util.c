@@ -167,3 +167,19 @@ void print_switch_hash_algo(sai_switch_hash_algo_t algo)
         (algo==1)? "RANDOM":"??");
     
 }
+
+
+void print_acl_type(sai_acl_ip_type_t type)
+{
+    printf(" %s\n",
+        (type == 0 ) ?"ANY":
+        (type == 1 ) ?"IP":
+        (type == 2 ) ?"NON_IP":
+        (type == 3 ) ?"IPv4ANY":
+        (type == 4 ) ?"NON_IPv4":
+        (type == 5 ) ?"IPv6ANY":
+        (type == 6 ) ?"NON_IPv6":
+        (type == 7 ) ?"ARP":
+        (type == 8 ) ?"ARP_REQUEST":
+        (type == 9 ) ?"ARP_REPLY":"??");
+}

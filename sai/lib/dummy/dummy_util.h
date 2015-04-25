@@ -23,4 +23,7 @@ void print_switch_state(sai_switch_oper_status_t state);
 void print_switch_sw_mode(sai_switch_switching_mode_t mode);
 void print_switch_hash_algo(sai_switch_hash_algo_t algo);
 
+void print_acl_type(sai_acl_ip_type_t type);
+
+
 #endif //__DUMMY_RND_H_

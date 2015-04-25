@@ -152,7 +152,6 @@ typedef struct _route_t {
     uint8_t                     trap_pri;   //deafult 0
     sai_object_id_t             nexthop_id;
 
-    /* CUSTOM RANGE BASE */
 } route_t;
 
 
@@ -169,7 +168,6 @@ typedef struct _qos_t {
     uint32_t                        bw_limit;   //?
     uint32_t                        buf_limit;  //?
 
-    /* CUSTOM RANGE BASE */
 } qos_t;
 
 typedef struct _next_hop_grp_t {
@@ -183,7 +181,6 @@ typedef struct _next_hop_grp_t {
     sai_next_hop_group_type_t       type;
     sai_object_list_t               next_hop_list;
 
-    /* CUSTOM RANGE BASE */
 } next_hop_grp_t;
 
 
@@ -196,7 +193,6 @@ typedef struct _next_hop_t {
     sai_ip_address_t            ip_addr_v4;
     sai_object_id_t             rtr_intf_id;
 
-    /* CUSTOM RANGE BASE */
 } next_hop_t;
 
 typedef struct _neighbor_t {
@@ -206,8 +202,6 @@ typedef struct _neighbor_t {
     /* Read Write */
     sai_mac_t               dst_mac;
     sai_packet_action_t     act_fwd;
-
-    /*CUSTOM RANGE BASE */
 
 } neighbor_t;
 
@@ -269,7 +263,7 @@ typedef struct _host_intf_t {
 } host_intf_t;
 
 
-typedef struct _acl_tbl_t {
+typedef struct _acl_table_t {
     /* Internal Data Structure */
     struct _acl_tbl_t   *next;
 
@@ -318,8 +312,65 @@ typedef struct _acl_tbl_t {
     /*End of Table Field*/
 
     /*CUSTOM RANGE BASE*/
-} acl_tbl_t;
+} acl_table_t;
 
+
+typedef struct _acl_entry_t {
+    /* Internal Data Structure */
+    struct _acl_entry_t *next;
+
+    /* READ ONLY */
+    sai_object_id_t     tbl_id;
+    sai_uint32_t        priority;
+    bool                admin_state;
+    sai_ip6_t           src_ipv6;    //default SAI_ACL_ENTRY_ATTR_FIELD_START
+    sai_ip6_t           dst_ipv6;
+    
+    sai_mac_t           src_mac;
+    sai_mac_t           dst_mac;
+
+    sai_ip4_t           src_ipv4;
+    sai_ip4_t           dst_ipv4;
+
+    sai_object_list_t   in_port_list;
+    sai_object_list_t   out_port_list;
+
+    sai_object_id_t     out_port;
+
+    sai_vlan_id_t       outer_vlan_id;
+    sai_uint32_t        outer_vlan_pri;
+    sai_uint32_t        outer_vlan_cfi;
+
+    sai_vlan_id_t       inner_vlan_id;
+    sai_uint32_t        inner_vlan_pri;
+    sai_uint32_t        inner_vlan_cfi;
+
+    /* L4 Src Port */
+    /* L4 Dst Port */
+    /* Ether Type */
+    /* IP Protocol */
+    /* IP DSCP */
+    /* IP TTL */
+    /* IP TOS */
+    /* IP FLAGS */
+    /* TCP FLAGS */
+
+    sai_acl_ip_type_t   ip_type;
+    sai_acl_ip_frag_t   ip_frag;
+    sai_uint32_t        ipv6_flow_lbl;
+
+    /*Traffic Class */
+    /* Rule Match fields */
+    sai_uint32_t        action_start_base;  //default 0x00002000
+    sai_uint32_t        action_fwd_offset;
+    sai_object_id_t     dest_redirection;
+
+    sai_acl_action_data_t   
+
+
+
+
+} acl_entry_t;
 
 
 typedef struct _fdb_entry_t {
