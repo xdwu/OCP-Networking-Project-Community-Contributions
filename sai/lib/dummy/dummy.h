@@ -137,8 +137,8 @@ typedef struct _vrtr_t {
 
     /* Read Only */
     /* Read Write */
-    bool        admin_v4_state;
-    bool        admin_v6_state;
+    bool        enbl_admin_v4;
+    bool        enbl_admin_v6;
     sai_mac_t   src_mac;
     sai_packet_action_t     act_ttl_one;
     sai_packet_action_t     act_ip_opt;     

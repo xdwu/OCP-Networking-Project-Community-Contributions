@@ -103,15 +103,6 @@ dummy_init_switch(
         return SAI_STATUS_FAILURE;
     }
 
-    int i;
-    sai_object_id_t oid;
-    for(i=0; i<dummy_switch.portlst.count; i++) {
-        if(!acquire_oid(&oid)){
-            return SAI_STATUS_FAILURE;
-        }
-        dummy_switch.portlst.list[i] = oid;
-    }
-    
     dummy_switch.cpu_port_oid = 0;
     dummy_switch.num_max_vrtr = MAX_VRTR;
     dummy_switch.size_fdb_tbl = SIZE_FORWARD_TABLE;
@@ -161,36 +152,21 @@ dummy_init_switch(
 
     /* initialize ports */
 
-    bool ret;
-    port_t   *port_p, *last;
-
-    last = dummy_switch.port_ll;
+    int     i;
+    port_t  *port_p;
 
     for (i=0; i< dummy_switch.portlst.count; i++) {
-        port_p = (port_t *)malloc(sizeof(port_t));
-        if(port_p == NULL) {
+        if(!new_port(&port_p)) {
             return SAI_STATUS_FAILURE;
         }
 
-        port_p->oid = dummy_switch.portlst.list[i];
-        port_p->next = NULL;
-        ret = init_port(port_p);
+        dummy_switch.portlst.list[i] = port_p->oid;
 
         if(i==0) {
             port_p->type = SAI_PORT_TYPE_CPU;
         }
 
-        if (!ret ) {
-            return SAI_STATUS_FAILURE;
-        }
-        
-        if(dummy_switch.port_ll == NULL) {
-            dummy_switch.port_ll = port_p;
-            last = port_p;
-        } else {
-            last->next = port_p;
-            last = port_p;
-        }
+        ll_add_end((node_t**)(&(dummy_switch.port_ll)), (node_t*)port_p);
 
         // Change State of Ports 
         dummy_switch_notification_handlers.on_port_state_change(
@@ -610,15 +586,10 @@ void show_switch(void)
 
     printf("  custom range base: 0x%8x\n", SAI_SWITCH_ATTR_CUSTOM_RANGE_BASE);
 
-    printf("  ports: ");
-    /*
-    int i;
-    for(i=0; i<dummy_switch.portlst.count; i++) {
-        printf("0x%8lx ", dummy_switch.portlst.list[i]);
-    }
-    printf("\n");
-    */
+    printf("  port olist: ");
     print_olst(dummy_switch.portlst);
+    printf("  port ll: ");
+    ll_show((node_t*)(dummy_switch.port_ll));
 
     port_t *p;
 

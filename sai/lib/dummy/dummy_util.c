@@ -189,7 +189,7 @@ void print_olst(sai_object_list_t lst)
     int i;
 
     for(i=0; i<lst.count; i++) {
-        printf("0x%8lx ", lst.list[i]);
+        printf(" 0x%08lx |", lst.list[i]);
     }
 
     printf("\n");

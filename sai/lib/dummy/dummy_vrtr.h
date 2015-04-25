@@ -54,6 +54,8 @@ sai_virtual_router_api_t dummy_vrtr_method_table;
 bool init_vrtr(vrtr_t *vrtr_p);
 void show_vrtr(vrtr_t *vrtr_p);
 
+bool new_vrtr(vrtr_t **vrtr_pp);
+void erase_vrtr(vrtr_t *vrtr_p);
 
 
 #endif //__DUMMY_VRTR_H_

@@ -138,9 +138,9 @@ int main(int argc, char** argv)
 /*-----------------------------------*/
     printf("\t---list w/ 3 nodes ---\n");
 
-    ll_add_front(listpp, n1);
-    ll_add_front(listpp, n2);
-    ll_add_front(listpp, n3);
+    ll_add_end(listpp, n1);
+    ll_add_end(listpp, n2);
+    ll_add_end(listpp, n3);
     ll_show(*listpp);
 /*-----------------------------------*/
     printf("\t---erase the whole list ---\n");

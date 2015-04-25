@@ -67,20 +67,19 @@ bool ll_add_front(node_t **listpp, node_t *np)
 bool ll_add_end(node_t **listpp, node_t *np)
 {
     printf("%s\n", __FUNCTION__);
-    node_t *listp, *p;
+    node_t *p;
 
     if (np == NULL || listpp == NULL) {
         return false;
     }
 
-    listp = *listpp;
     
-    if (listp == NULL) {
-        listp = np;
+    if (*listpp == NULL) {
+        *listpp = np;
         return true;
     }
     
-    for(p=listp; p->next != NULL; p=p->next);
+    for(p=*listpp; p->next != NULL; p=p->next);
 
     p->next = np;
 
@@ -151,7 +150,7 @@ node_t* ll_unlink_head(node_t **listpp)
 
 void ll_erase(node_t **listpp)
 {
-    node_t *p, *pp, *sn;
+    node_t *p;
     printf("%s \n", __FUNCTION__);
 
     if(*listpp == NULL) {
@@ -198,7 +197,7 @@ void ll_show(node_t *listp)
     }
 
     for(p=listp; p != NULL; p=p->next) {
-        printf("[0x%8lx] -> ", p->oid);
+        printf("[0x%08lx] -> ", p->oid);
     }
     printf("\n");
 }
