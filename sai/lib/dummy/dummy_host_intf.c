@@ -59,7 +59,7 @@ dummy_get_host_intf_attr(
     return SAI_STATUS_SUCCESS;
 }
 
-sai_host_interface_api_t dummy_host_interface_method_table = {
+sai_hostif_api_t dummy_host_interface_method_table = {
     dummy_create_host_intf,
     dummy_remove_host_intf,
     dummy_set_host_intf_attr,

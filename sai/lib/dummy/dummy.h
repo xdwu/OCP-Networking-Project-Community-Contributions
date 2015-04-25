@@ -62,7 +62,7 @@ sai_router_interface_api_t* sai_rif_api;
 sai_neighbor_api_t* sai_neighbor_api;
 sai_qos_api_t* sai_qos_api;
 sai_acl_api_t* sai_acl_api;
-sai_host_interface_api_t* sai_hif_api;
+sai_hostif_api_t* sai_hif_api;
 sai_mirror_api_t* sai_mirror_api;
 sai_samplepacket_api_t* sai_smpl_pkt_api;
 sai_stp_api_t* sai_stp_api;
@@ -320,6 +320,7 @@ typedef struct _acl_entry_t {
     struct _acl_entry_t *next;
 
     /* READ ONLY */
+    /*
     sai_object_id_t     tbl_id;
     sai_uint32_t        priority;
     bool                admin_state;
@@ -344,6 +345,7 @@ typedef struct _acl_entry_t {
     sai_vlan_id_t       inner_vlan_id;
     sai_uint32_t        inner_vlan_pri;
     sai_uint32_t        inner_vlan_cfi;
+    */
 
     /* L4 Src Port */
     /* L4 Dst Port */
@@ -355,17 +357,21 @@ typedef struct _acl_entry_t {
     /* IP FLAGS */
     /* TCP FLAGS */
 
+    /*
     sai_acl_ip_type_t   ip_type;
     sai_acl_ip_frag_t   ip_frag;
     sai_uint32_t        ipv6_flow_lbl;
+    */
 
     /*Traffic Class */
     /* Rule Match fields */
+    /*
     sai_uint32_t        action_start_base;  //default 0x00002000
     sai_uint32_t        action_fwd_offset;
     sai_object_id_t     dest_redirection;
+    */
 
-    sai_acl_action_data_t   
+//    sai_acl_action_data_t   
 
 
 
@@ -462,7 +468,7 @@ typedef struct _switch_t {
 
     bool enable_bcast_cpu_flood;
     bool enable_mcast_cpu_flood;
-    sai_packet_action_t act_ttl_one;
+    //sai_packet_action_t act_ttl_one;
     sai_vlan_id_t default_port_vlan_id;          //default 1
     sai_mac_t default_mac_addr;
     uint32_t num_max_learned_addr;          //default 0

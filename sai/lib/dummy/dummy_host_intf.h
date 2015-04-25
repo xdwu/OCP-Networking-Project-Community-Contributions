@@ -47,6 +47,6 @@ dummy_get_host_intf_attr(
     _In_ uint32_t attr_count,
     _Out_ sai_attribute_t* attr_list);
 
-sai_host_interface_api_t dummy_host_interface_method_table;
+sai_hostif_api_t dummy_host_interface_method_table;
 
 #endif //__DUMMY_HOST_INTF_H_

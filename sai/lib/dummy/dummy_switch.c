@@ -124,7 +124,6 @@ dummy_init_switch(
     dummy_switch.mode_switch = SAI_SWITCHING_MODE_STORE_AND_FORWARD;
     dummy_switch.enable_bcast_cpu_flood = false;
     dummy_switch.enable_mcast_cpu_flood = false;
-    dummy_switch.act_ttl_one = SAI_PACKET_ACTION_TRAP;
     dummy_switch.default_port_vlan_id = 1;
 
 
@@ -284,10 +283,6 @@ dummy_set_switch_attr(
             dummy_switch.enable_mcast_cpu_flood = attr->value.booldata;
             break;
 
-        case SAI_SWITCH_ATTR_VIOLATION_TTL1_ACTION:
-            dummy_switch.act_ttl_one = attr->value.u8;
-            break;
-
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
             dummy_switch.default_port_vlan_id = attr->value.u16;
             break;
@@ -442,10 +437,6 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             attr->value.booldata = dummy_switch.enable_mcast_cpu_flood;
             break;
 
-        case SAI_SWITCH_ATTR_VIOLATION_TTL1_ACTION:
-            attr->value.u8 = dummy_switch.act_ttl_one;
-            break;
-
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
             attr->value.u16 = dummy_switch.default_port_vlan_id;
             break;
@@ -585,9 +576,6 @@ void show_switch(void)
 
     printf("  L2 multicast flood control to CPU port: %s\n", 
             dummy_switch.enable_mcast_cpu_flood?"true":"false");
-
-    printf("  action for packets with TTL=0/TTL=1: ");
-    print_action_pkt(dummy_switch.act_ttl_one);
 
     printf("  default vlan id for ports not in any group: %d\n", 
             dummy_switch.default_port_vlan_id);
