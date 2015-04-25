@@ -498,3 +498,43 @@ show_port(port_t *port_p)
 
     return;
 }
+
+bool
+new_port(port_t **port_pp)
+{
+    printf("%s\n", __FUNCTION__);
+    port_t  *p;
+
+    p = (port_t*)malloc(sizeof(port_t));
+    if(p == NULL) {
+        return false;
+    }
+
+    if(!acquire_oid(&(p->oid))) {
+        free(p);
+        return false;
+    }
+
+    if(!init_port(p)) {
+        release_oid(p->oid);
+        free(p);
+    }
+
+    p->next = NULL;
+    *port_pp = p;
+
+    return true;
+}
+
+void
+erase_port(port_t *port_p)
+{
+    printf("%s\n", __FUNCTION__);
+    if(port_p == NULL) {
+        return;
+    }
+
+    release_oid(port_p->oid);
+    free(port_p);
+}
+

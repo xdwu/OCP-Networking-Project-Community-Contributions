@@ -290,7 +290,7 @@ dummy_set_switch_attr(
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            set_mac(dummy_switch.default_mac, attr->value.mac);
+            mac_copy(dummy_switch.default_mac, attr->value.mac);
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:
@@ -439,7 +439,7 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            set_mac(attr->value.mac, dummy_switch.default_mac);
+            mac_copy(attr->value.mac, dummy_switch.default_mac);
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:

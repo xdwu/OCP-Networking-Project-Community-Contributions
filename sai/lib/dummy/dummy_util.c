@@ -195,7 +195,7 @@ void print_olst(sai_object_list_t lst)
     printf("\n");
 }
 
-void set_mac(sai_mac_t mac1, const sai_mac_t mac2)
+void mac_copy(sai_mac_t mac1, const sai_mac_t mac2)
 {
     mac1[0] = mac2[0];
     mac1[1] = mac2[1];

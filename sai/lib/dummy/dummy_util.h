@@ -1,5 +1,26 @@
-#ifndef __DUMMY_RND_H_
-#define __DUMMY_RND_H_
+/*
+ * Copyright (c) 2014 Microsoft Open Technologies, Inc. 
+ *   
+ *    Licensed under the Apache License, Version 2.0 (the "License"); you may 
+ *    not use this file except in compliance with the License. You may obtain 
+ *    a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT WARRANTIES OR 
+ *    CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT 
+ *    LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS OF TITLE, FITNESS 
+ *    FOR A PARTICULAR PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT.
+ *
+ *    See the Apache Version 2.0 License for specific language governing 
+ *    permissions and limitations under the License. 
+ *
+ *    Microsoft would like to thank the following companies for their review and
+ *    assistance with these files: Intel Corporation, Mellanox Technologies Ltd,
+ *    Dell Products, L.P., Facebook, Inc
+ *
+ *
+ */
+#ifndef __DUMMY_UTIL_H_
+#define __DUMMY_UTIL_H_
 
 #include "dummy.h"
 #include "dummy_internal.h"
@@ -27,6 +48,6 @@ void print_acl_type(sai_acl_ip_type_t type);
 
 void print_olst(sai_object_list_t lst);
 
-void set_mac(sai_mac_t mac1, const sai_mac_t mac2);
+void mac_copy(sai_mac_t mac1, const sai_mac_t mac2);
 
-#endif //__DUMMY_RND_H_
+#endif //__DUMMY_UTIL_H_

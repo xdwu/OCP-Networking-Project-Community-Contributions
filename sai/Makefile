@@ -25,7 +25,7 @@ DDIR = ./lib/dummy
 IDIR = ./inc
 LDIR = ./lib
 
-all: libdummy testdummy dummy_unittest
+all: libdummy testdummy dummy_unittest lltest
 
 ##########################################################
 # SAI headers
@@ -48,6 +48,7 @@ _DEPS_DUMMY =   dummy_acl.h  dummy_lag.h dummy_nexthop.h dummy_rtr_intf.h\
 		dummy_smpl_pkt_sess.h dummy_vrtr.h dummy_host_intf.h  dummy_nbr.h\
 		dummy_qos.h dummy_stp.h test.h dummy_init.h dummy_nexthop_grp.h\
 		dummy_route.h dummy_switch.h dummy_init.h dummy_util.h dummy.h\
+		dummy_ll.h
 
 DEPS_DUMMY = $(patsubst %, $(LDIR_DUMMY)/%, $(_DEPS_DUMMY))
 
@@ -56,6 +57,7 @@ _OBJ_DUMMY = dummy_port.o dummy_switch.o dummy_fdb.o dummy_vlan.o\
 		dummy_rtr_intf.o dummy_nbr.o dummy_qos.o dummy_acl.o\
 		dummy_host_intf.o dummy_mirror_sess.o dummy_smpl_pkt_sess.o\
 		dummy_stp.o dummy_lag.o dummy_init.o dummy_util.o\
+		dummy_ll.o
 
 OBJ_DUMMY = $(patsubst %, $(ODIR_DUMMY)/%, $(_OBJ_DUMMY))
 
@@ -67,13 +69,16 @@ $(ODIR_DUMMY)/%.o: $(LDIR_DUMMY)/%.c $(DEPS)
 libdummy: $(OBJ_DUMMY)
 	$(CC) -shared -Wl,-soname,libsaidummy.so.0 -o $(LDIR)/$(LIB_DUMMY)  $(OBJ_DUMMY) -I$(LDIR_DUMMY)
 
-testdummy: $(OBJ_DUMMY)
+testdummy: $(OBJ_DUMMY) src/dummy/test.c
 	gcc src/dummy/test.c -I$(DDIR) -o $@ $(CFLAGS) $(LIBS) $(LDIR)/$(LIB_DUMMY) -I$(LDIR_DUMMY)
+
+lltest: $(OBJ_DUMMY) src/dummy/testll.c
+	gcc src/dummy/testll.c -I$(DDIR) -o $@ $(CFLAGS) $(LIBS) $(LDIR)/$(LIB_DUMMY) -I$(LDIR_DUMMY)
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR_DUMMY)/*.o $(SRCDIR_DUMMY)/*~  $(INDIR)/*~ $(LDIR)/libsaidummy.so.0.9.2 testdummy core \
+	rm -f $(ODIR_DUMMY)/*.o $(SRCDIR_DUMMY)/*~  $(INDIR)/*~ $(LDIR)/libsaidummy.so.0.9.2 testdummy lltest core \
 $(TESTS) $(USER_ODIR)/gtest.a $(USER_ODIR)/gtest_main.a $(USER_ODIR)/*.o
 
 
@@ -85,8 +90,7 @@ USER_DIR = ./src/dummy_unittest
 USER_ODIR = ./src/dummy_unittest/obj
 CPPFLAGS += -isystem $(GTEST_DIR)/include
 CXXFLAGS += -g -Wall -Wextra -pthread
-TESTS = libdummy dummy_unittest sample1_unittest
-#TESTS = sample1_unittest
+TESTS = libdummy dummy_unittest 
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 				$(GTEST_DIR)/include/gtest/internal/*.h
 gall : $(TESTS)

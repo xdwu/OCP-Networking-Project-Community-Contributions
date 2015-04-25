@@ -106,7 +106,7 @@ bool init_vrtr(vrtr_t *vrtr_p)
     vrtr_p->admin_v4_state = true;
     vrtr_p->admin_v6_state = true;
 
-    set_mac(vrtr_p->src_mac, dummy_switch.default_mac);
+    mac_copy(vrtr_p->src_mac, dummy_switch.default_mac);
 
     vrtr_p->act_ttl_one = SAI_PACKET_ACTION_TRAP;
 

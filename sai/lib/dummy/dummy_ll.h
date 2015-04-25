@@ -19,13 +19,31 @@
  *
  *
  */
-#ifndef __DUMMY_TEST_H_
-#define __DUMMY_TEST_H_
+#ifndef __DUMMY_LL_H_
+#define __DUMMY_LL_H_
 
 #include "dummy.h"
 #include "dummy_internal.h"
 
+typedef struct _generic_node_t {
+    struct _generic_node_t *next;
+    sai_object_id_t         oid;
 
-bool InitializeL3(void);
+} node_t;
 
-#endif  //__DUMMY_TEST_H_
+
+bool ll_new_node(node_t** npp);
+
+bool ll_add_front(node_t **listpp, node_t *n);
+bool ll_add_end(node_t **listpp, node_t *n);
+node_t* ll_search(node_t *listp, sai_object_id_t key);
+node_t* ll_unlink(node_t **listpp, sai_object_id_t key);
+node_t* ll_unlink_head(node_t **listpp);
+
+void ll_erase(node_t **listpp);
+
+
+void ll_show_node(node_t *n);
+void ll_show(node_t *lp);
+
+#endif //__DUMMY_LL_H_

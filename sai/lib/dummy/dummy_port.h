@@ -52,6 +52,12 @@ sai_port_api_t dummy_port_method_table;
 bool 
 init_port(port_t *port_p);
 
+bool 
+new_port(port_t **port_pp);
+
+void 
+erase_port(port_t *port_p);
+
 void 
 show_port(port_t *port_p);
 
