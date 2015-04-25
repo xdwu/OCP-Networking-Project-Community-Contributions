@@ -49,4 +49,11 @@ dummy_get_vrtr_attr(
 
 sai_virtual_router_api_t dummy_vrtr_method_table;
 
+
+/* Internal functions */
+bool init_vrtr(vrtr_t *vrtr_p);
+void show_vrtr(vrtr_t *vrtr_p);
+
+
+
 #endif //__DUMMY_VRTR_H_

@@ -5,8 +5,8 @@
 #include "dummy_internal.h"
 
 bool init_objid_pool();
-bool acquire_id(uint64_t *id);
-bool release_id(uint64_t id);    
+bool acquire_oid(sai_object_id_t *oid);
+bool release_oid(sai_object_id_t oid);    
 
 void print_mac(sai_mac_t mac_addr);
 void print_action_pkt(sai_packet_action_t act);
@@ -25,5 +25,8 @@ void print_switch_hash_algo(sai_switch_hash_algo_t algo);
 
 void print_acl_type(sai_acl_ip_type_t type);
 
+void print_olst(sai_object_list_t lst);
+
+void set_mac(sai_mac_t mac1, const sai_mac_t mac2);
 
 #endif //__DUMMY_RND_H_

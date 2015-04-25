@@ -34,7 +34,7 @@ dummy_hndlr_fdb_event(
     _In_ sai_fdb_event_t event_type,
     _In_ sai_fdb_entry_t* fdb_entry,
     _In_ uint32_t attr_count,
-    _In_ sai_attribute_t* attr_list)
+    _In_ sai_attribute_t* attr_lst)
 {
     printf("%s\n", __FUNCTION__);
 }
@@ -78,6 +78,8 @@ sai_switch_notification_t dummy_switch_notification_handlers = {
 #define MAX_PORT            2
 #define MAX_VRTR            2
 #define SIZE_FORWARD_TABLE  32768
+//To Do
+//Change how the port_ll is created
 
 sai_status_t
 dummy_init_switch(
@@ -92,47 +94,47 @@ dummy_init_switch(
     dummy_switch.state_oper = SAI_SWITCH_OPER_STATUS_UNKNOWN;
     dummy_switch.num_max_port = MAX_PORT;
 
-    dummy_switch.port_list.count = dummy_switch.num_max_port; //Not Sure where to get info
-    dummy_switch.port_list.list = 
+    dummy_switch.portlst.count = dummy_switch.num_max_port; //Not Sure where to get info
+    dummy_switch.portlst.list = 
         (sai_object_id_t*)malloc(sizeof(sai_object_id_t)*
-                dummy_switch.port_list.count);
+                dummy_switch.portlst.count);
 
-    if (dummy_switch.port_list.list == NULL) {
+    if (dummy_switch.portlst.list == NULL) {
         return SAI_STATUS_FAILURE;
     }
 
     int i;
-    uint64_t id;
-    for(i=0; i<dummy_switch.port_list.count; i++) {
-        if(!acquire_id(&id)){
+    sai_object_id_t oid;
+    for(i=0; i<dummy_switch.portlst.count; i++) {
+        if(!acquire_oid(&oid)){
             return SAI_STATUS_FAILURE;
         }
-        dummy_switch.port_list.list[i] = id;
+        dummy_switch.portlst.list[i] = oid;
     }
     
-    dummy_switch.cpu_port = 0;
+    dummy_switch.cpu_port_oid = 0;
     dummy_switch.num_max_vrtr = MAX_VRTR;
     dummy_switch.size_fdb_tbl = SIZE_FORWARD_TABLE;
-    dummy_switch.enable_link_route = false;
+    dummy_switch.enbl_link_route = false;
     dummy_switch.max_temp = -1;
     dummy_switch.min_pri_acl_tbl = 1;
     dummy_switch.max_pri_acl_tbl = 7;
     dummy_switch.min_pri_acl_ent = 1;
     dummy_switch.max_pri_acl_ent = 7;
-    dummy_switch.default_stp_inst_id = 0;
+    dummy_switch.default_stp_inst_oid = 0;
 
     dummy_switch.mode_switch = SAI_SWITCHING_MODE_STORE_AND_FORWARD;
-    dummy_switch.enable_bcast_cpu_flood = false;
-    dummy_switch.enable_mcast_cpu_flood = false;
+    dummy_switch.enbl_bcast_cpu_flood = false;
+    dummy_switch.enbl_mcast_cpu_flood = false;
     dummy_switch.default_port_vlan_id = 1;
 
 
-    dummy_switch.default_mac_addr[0] = 0x00;
-    dummy_switch.default_mac_addr[1] = 0x10;
-    dummy_switch.default_mac_addr[2] = 0x20;
-    dummy_switch.default_mac_addr[3] = 0x30;
-    dummy_switch.default_mac_addr[4] = 0x40;
-    dummy_switch.default_mac_addr[5] = 0x50;
+    dummy_switch.default_mac[0] = 0x00;
+    dummy_switch.default_mac[1] = 0x10;
+    dummy_switch.default_mac[2] = 0x20;
+    dummy_switch.default_mac[3] = 0x30;
+    dummy_switch.default_mac[4] = 0x40;
+    dummy_switch.default_mac[5] = 0x50;
 
     dummy_switch.num_max_learned_addr = 0;
     dummy_switch.time_aging_fdb = 0;
@@ -162,15 +164,15 @@ dummy_init_switch(
     bool ret;
     port_t   *port_p, *last;
 
-    last = dummy_switch.ports;
+    last = dummy_switch.port_ll;
 
-    for (i=0; i< dummy_switch.port_list.count; i++) {
+    for (i=0; i< dummy_switch.portlst.count; i++) {
         port_p = (port_t *)malloc(sizeof(port_t));
         if(port_p == NULL) {
             return SAI_STATUS_FAILURE;
         }
 
-        port_p->id = dummy_switch.port_list.list[i];
+        port_p->oid = dummy_switch.portlst.list[i];
         port_p->next = NULL;
         ret = init_port(port_p);
 
@@ -182,8 +184,8 @@ dummy_init_switch(
             return SAI_STATUS_FAILURE;
         }
         
-        if(dummy_switch.ports == NULL) {
-            dummy_switch.ports = port_p;
+        if(dummy_switch.port_ll == NULL) {
+            dummy_switch.port_ll = port_p;
             last = port_p;
         } else {
             last->next = port_p;
@@ -192,7 +194,7 @@ dummy_init_switch(
 
         // Change State of Ports 
         dummy_switch_notification_handlers.on_port_state_change(
-                port_p->id, SAI_PORT_OPER_STATUS_UP);
+                port_p->oid, SAI_PORT_OPER_STATUS_UP);
     }
 
 
@@ -216,7 +218,7 @@ dummy_shutdown_switch(
     //Change State of Ports 
     /* ... Release Port_DB */
 
-    free(dummy_switch.port_list.list);
+    free(dummy_switch.portlst.list);
     free(dummy_switch.fields_lag_hash.list);
     free(dummy_switch.fields_ecmp_hash.list);
     free(dummy_switch.mode_port_brkout.port_list.list);
@@ -276,11 +278,11 @@ dummy_set_switch_attr(
             break;
 
         case SAI_SWITCH_ATTR_BCAST_CPU_FLOOD_ENABLE:
-            dummy_switch.enable_bcast_cpu_flood = attr->value.booldata;
+            dummy_switch.enbl_bcast_cpu_flood = attr->value.booldata;
             break;
 
         case SAI_SWITCH_ATTR_MCAST_CPU_FLOOD_ENABLE:
-            dummy_switch.enable_mcast_cpu_flood = attr->value.booldata;
+            dummy_switch.enbl_mcast_cpu_flood = attr->value.booldata;
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
@@ -288,12 +290,7 @@ dummy_set_switch_attr(
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            dummy_switch.default_mac_addr[0] = attr->value.mac[0];
-            dummy_switch.default_mac_addr[1] = attr->value.mac[1];
-            dummy_switch.default_mac_addr[2] = attr->value.mac[2];
-            dummy_switch.default_mac_addr[3] = attr->value.mac[3];
-            dummy_switch.default_mac_addr[4] = attr->value.mac[4];
-            dummy_switch.default_mac_addr[5] = attr->value.mac[5];
+            set_mac(dummy_switch.default_mac, attr->value.mac);
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:
@@ -377,11 +374,11 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_PORT_LIST:
-            attr->value.objlist = dummy_switch.port_list;
+            attr->value.objlist = dummy_switch.portlst;
             break;
 
         case SAI_SWITCH_ATTR_CPU_PORT:
-            attr->value.oid = dummy_switch.cpu_port;
+            attr->value.oid = dummy_switch.cpu_port_oid;
             break;
 
         case SAI_SWITCH_ATTR_MAX_VIRTUAL_ROUTERS:
@@ -393,7 +390,7 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_ON_LINK_ROUTE_SUPPORTED:
-            attr->value.booldata = dummy_switch.enable_link_route;
+            attr->value.booldata = dummy_switch.enbl_link_route;
             break;
 
         case SAI_SWITCH_ATTR_OPER_STATUS:
@@ -421,7 +418,7 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_STP_INST_ID:
-            attr->value.oid = dummy_switch.default_stp_inst_id;
+            attr->value.oid = dummy_switch.default_stp_inst_oid;
             break;
 
         //Read Write
@@ -430,11 +427,11 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_BCAST_CPU_FLOOD_ENABLE:
-            attr->value.booldata =  dummy_switch.enable_bcast_cpu_flood;
+            attr->value.booldata =  dummy_switch.enbl_bcast_cpu_flood;
             break;
 
         case SAI_SWITCH_ATTR_MCAST_CPU_FLOOD_ENABLE:
-            attr->value.booldata = dummy_switch.enable_mcast_cpu_flood;
+            attr->value.booldata = dummy_switch.enbl_mcast_cpu_flood;
             break;
 
         case SAI_SWITCH_ATTR_DEFAULT_PORT_VLAN_ID:
@@ -442,12 +439,7 @@ dummy_get_single_sw_attr(_Inout_ sai_attribute_t *attr)
             break;
 
         case SAI_SWITCH_ATTR_SRC_MAC_ADDRESS:
-            attr->value.mac[0] = dummy_switch.default_mac_addr[0];
-            attr->value.mac[1] = dummy_switch.default_mac_addr[1];
-            attr->value.mac[2] = dummy_switch.default_mac_addr[2];
-            attr->value.mac[3] = dummy_switch.default_mac_addr[3];
-            attr->value.mac[4] = dummy_switch.default_mac_addr[4];
-            attr->value.mac[5] = dummy_switch.default_mac_addr[5];
+            set_mac(attr->value.mac, dummy_switch.default_mac);
             break;
 
         case SAI_SWITCH_ATTR_MAX_LEARNED_ADDRESSES:
@@ -558,30 +550,30 @@ void show_switch(void)
     print_switch_state(dummy_switch.state_oper);
 
     printf("  # of ports: %d\n", dummy_switch.num_max_port);
-    printf("  CPU port: %lu\n", dummy_switch.cpu_port);
+    printf("  CPU port: %lu\n", dummy_switch.cpu_port_oid);
     printf("  # of virtual router: %d\n", dummy_switch.num_max_vrtr);
     printf("  size of fwd table: %d\n", dummy_switch.size_fdb_tbl);
-    printf("  local subnet routing: %s\n", (dummy_switch.enable_link_route)?"true":"false");
+    printf("  local subnet routing: %s\n", (dummy_switch.enbl_link_route)?"true":"false");
     printf("  max temperature: %d\n", dummy_switch.max_temp);
     printf("  min priority acl table: %d\n", dummy_switch.min_pri_acl_tbl);
     printf("  max priority acl table: %d\n", dummy_switch.max_pri_acl_tbl);
     printf("  min priority acl entry: %d\n", dummy_switch.min_pri_acl_ent);
     printf("  max priority acl entry: %d\n", dummy_switch.max_pri_acl_ent);
-    printf("  default STP instance id: %lu\n", dummy_switch.default_stp_inst_id);
+    printf("  default STP instance id: %lu\n", dummy_switch.default_stp_inst_oid);
     printf("  switching mode: " );
     print_switch_sw_mode(dummy_switch.mode_switch);
 
     printf("  L2 broadcast flood control to CPU port: %s\n", 
-            dummy_switch.enable_bcast_cpu_flood?"true":"false");
+            dummy_switch.enbl_bcast_cpu_flood?"true":"false");
 
     printf("  L2 multicast flood control to CPU port: %s\n", 
-            dummy_switch.enable_mcast_cpu_flood?"true":"false");
+            dummy_switch.enbl_mcast_cpu_flood?"true":"false");
 
     printf("  default vlan id for ports not in any group: %d\n", 
             dummy_switch.default_port_vlan_id);
 
     printf("  default switch MAC address: ");
-    print_mac(dummy_switch.default_mac_addr);
+    print_mac(dummy_switch.default_mac);
  
     printf("  max # of learned MAC address: %d\n", dummy_switch.num_max_learned_addr);
     printf("  dynamic FDB entry aging time (sec): %d\n", dummy_switch.time_aging_fdb);
@@ -619,15 +611,18 @@ void show_switch(void)
     printf("  custom range base: 0x%8x\n", SAI_SWITCH_ATTR_CUSTOM_RANGE_BASE);
 
     printf("  ports: ");
+    /*
     int i;
-    for(i=0; i<dummy_switch.port_list.count; i++) {
-        printf("0x%8lx ", dummy_switch.port_list.list[i]);
+    for(i=0; i<dummy_switch.portlst.count; i++) {
+        printf("0x%8lx ", dummy_switch.portlst.list[i]);
     }
     printf("\n");
+    */
+    print_olst(dummy_switch.portlst);
 
     port_t *p;
 
-    p = dummy_switch.ports;
+    p = dummy_switch.port_ll;
     while(p) {
         show_port(p);
         p = p->next;

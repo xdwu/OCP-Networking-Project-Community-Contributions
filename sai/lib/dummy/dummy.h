@@ -80,7 +80,7 @@ typedef struct _vlan_t {
 
     /* Read Write */
     uint32_t                max_learn_addr;
-    sai_object_id_t         stp_inst_id;
+    sai_object_id_t         stp_inst_oid;
 
     /* CUSTOM RANGE BASE */ //?
 } vlan_t;
@@ -89,14 +89,16 @@ typedef struct _vlan_t {
 typedef struct stp_t {
     /* Internal Data Structure */
     struct _stp_t           *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
-    sai_vlan_list_t         vlan_list;
+    sai_vlan_list_t         vlan_lst;
 } stp_t;
 
 typedef struct _smpl_pkt_t {
     /* Internal Data Structure */
-    struct _smpl_pkt_t             *next;
+    struct _smpl_pkt_t          *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     /* Read Write */
@@ -109,11 +111,13 @@ typedef struct _smpl_pkt_t {
 typedef struct _rtr_intf_t {
     /* Internal Data Structure */
     struct _rtr_intf_t             *next;
+    sai_object_id_t             oid;
+    
 
     /* Read Only */
-    sai_object_id_t                 vrtr_id;
+    sai_object_id_t                 vrtr_oid;
     sai_router_interface_type_t     type;
-    sai_object_id_t                 port_id;
+    sai_object_id_t                 port_oid;
     sai_vlan_id_t                   valn_id;
 
     /* Read Write */
@@ -129,6 +133,7 @@ typedef struct _rtr_intf_t {
 typedef struct _vrtr_t {
     /* Internal Data Structure */
     struct _vrtr_t             *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     /* Read Write */
@@ -136,21 +141,20 @@ typedef struct _vrtr_t {
     bool        admin_v6_state;
     sai_mac_t   src_mac;
     sai_packet_action_t     act_ttl_one;
-    sai_packet_action_t     act_ip;
-
-    /* CUSTOM RANGE BASE */
+    sai_packet_action_t     act_ip_opt;     
 } vrtr_t;
 
 
 typedef struct _route_t {
     /* Internal Data Structure */
     struct _route_t             *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     /* Read Write */
     sai_packet_action_t         act_fwd;
     uint8_t                     trap_pri;   //deafult 0
-    sai_object_id_t             nexthop_id;
+    sai_object_id_t             nexthop_oid;
 
 } route_t;
 
@@ -158,6 +162,7 @@ typedef struct _route_t {
 typedef struct _qos_t {
     /* Internal Data Structure */
     struct _qos_t     *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     /* Read Write */
@@ -173,13 +178,14 @@ typedef struct _qos_t {
 typedef struct _next_hop_grp_t {
     /* Internal Data Structure */
     struct _next_hop_grp_t     *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     uint32_t                        num_nexthop;
 
     /* Read Write */
     sai_next_hop_group_type_t       type;
-    sai_object_list_t               next_hop_list;
+    sai_object_list_t               next_hop_lst;
 
 } next_hop_grp_t;
 
@@ -187,17 +193,19 @@ typedef struct _next_hop_grp_t {
 typedef struct _next_hop_t {
     /* Internal Data Structure */
     struct _next_hop_t     *next;
+    sai_object_id_t             oid;
 
     /* Read Write */
     sai_next_hop_type_t         type;
     sai_ip_address_t            ip_addr_v4;
-    sai_object_id_t             rtr_intf_id;
+    sai_object_id_t             rtr_intf_oid;
 
 } next_hop_t;
 
 typedef struct _neighbor_t {
     /* Internal Data Structure */
     struct _neighbor_t     *next;
+    sai_object_id_t             oid;
 
     /* Read Write */
     sai_mac_t               dst_mac;
@@ -208,13 +216,14 @@ typedef struct _neighbor_t {
 typedef struct _mirror_sess_t {
     /* Internal Data Structure */
     struct _mirror_sess_t     *next;
+    sai_object_id_t             oid;
 
     /* Attribute */
     
     /* Read Only */
     /* Read Write */
     sai_mirror_type_t       type;
-    sai_object_id_t         monitor_port;
+    sai_object_id_t         monitor_port_oid;
     uint8_t                 class_srv;
     uint16_t                vlan_tpid;
     sai_vlan_id_t           vlan_id;
@@ -238,25 +247,27 @@ typedef struct _mirror_sess_t {
 typedef struct _lag_t {
     /* Internal Data Structure */
     struct _lag_t     *next;
+    sai_object_id_t             oid;
 
     /* Attribute */
     
     /* Read Only */
     /* Read Write */
-    sai_object_list_t   port_list;
+    sai_object_list_t   portlst;
 
 } lag_t;
 
 typedef struct _host_intf_t {
     /* Internal Data Structure */
     struct _host_intf_t     *next;
+    sai_object_id_t             oid;
 
 
     /* Attribute */
     
     /* Read Only */
     /* Read Write */
-    sai_object_id_t assn_id;
+    sai_object_id_t assn_oid;
     char*   name;
 
     /*CUSTOM RANGE BASE */
@@ -266,127 +277,184 @@ typedef struct _host_intf_t {
 typedef struct _acl_table_t {
     /* Internal Data Structure */
     struct _acl_tbl_t   *next;
+    sai_object_id_t             oid;
 
     /* Read Only */
     /* Read Write */
     sai_acl_stage_t     stage;
-    sai_uint32_t        priority;
+    sai_uint32_t        priority;           /*between SAI_SWITCH_ATTR_ACL_TABLE_MINIMUM_PRIORITY and
+                                            SAI_SWITCH_ATTR_ACL_TABLE_MAXIMUM_PRIORITY, default
+                                            SAI_SWITCH_ATTR_ACL_TABLE_MINIMUM_PRIORITY*/
 
     /* FIELD_START*/
-    sai_ip6_t           src_addr_v6;    //default SA_ACT_TABLE_ATTR_FIELD_START
-    sai_ip6_t           dst_addr_v6;
+    sai_ip6_t           fld_src_ipaddr6;    //default SA_ACT_TABLE_ATTR_FIELD_START
+    sai_ip6_t           fld_dst_ipaddr6;
 
-    sai_mac_t           src_mac;
-    sai_mac_t           dst_mac;
+    sai_mac_t           fld_src_mac;
+    sai_mac_t           fld_dst_mac;
 
-    sai_ip4_t           src_addr_v4;
-    sai_ip4_t           dst_addr_v4;
+    sai_ip4_t           fld_src_ipaddr4;
+    sai_ip4_t           fld_dst_ipaddr4;
 
-    /*In-Ports*/
-    /*Out-Ports*/
+    sai_object_list_t   fld_iportlst;
+    sai_object_list_t   fld_oportlst;
 
-    /*In-Port*/
-    /*Out-Port*/
+    sai_object_id_t     fld_iport_oid;
+    sai_object_id_t     fld_oport_oid;
 
-    /*Outer Vlan id */
-    /*Outer Vlan Priority */
-    /*Outer Vlan CFI */
+    sai_uint16_t        fld_ovlan_id:12;
+    sai_uint16_t        fld_ovlan_pri:3;
+    sai_uint16_t        fld_ovlan_cfi:1;
 
-    /*Inner Vlan id */
-    /*Inner Vlan Priority */
-    /*Inner Vlan CFI */
+    sai_uint16_t        fld_ivlan_id:12;
+    sai_uint16_t        fld_ivlan_pri:3;
+    sai_uint16_t        fld_ivlan_cfi:1;
     
-    /*L4 Dst Port*/
-    /*EtherType*/
+    sai_uint16_t        fld_l4_src_port;
+    sai_uint16_t        fld_l4_dst_port;
 
-    /*IP Protocol*/
-    /*IP DSCP */
-    /*IP TTL*/
-    /*IP TOS*/
-    /*IP FLAGS*/
-    /*TCP FLAGS*/
-    /*IP Type*/
-    /*IP FRAG*/
-    /*IPV6 Flow Label*/
-    /*Class-Of-Service*/
-    /*End of Table Field*/
+    sai_uint16_t        fld_eth_type;
+    sai_uint8_t         fld_ip_prot;
 
-    /*CUSTOM RANGE BASE*/
+    sai_uint8_t         fld_dscp:6;
+    sai_uint8_t         fld_ecn:2;
+
+    sai_uint8_t         fld_ttl;
+    sai_uint8_t         fld_tos;
+
+    sai_uint8_t         fld_ip_flags:3;
+    sai_uint8_t         fld_tcp_flags:6;
+
+    sai_acl_ip_type_t   fld_ip_type;
+    sai_acl_ip_frag_t   fld_ip_frag;
+    sai_uint32_t        fld_ipv6_flow_lbl:20;
+
+    sai_cos_t           fld_tc;
 } acl_table_t;
 
 
 typedef struct _acl_entry_t {
     /* Internal Data Structure */
     struct _acl_entry_t *next;
+    sai_object_id_t             oid;
 
     /* READ ONLY */
-    /*
-    sai_object_id_t     tbl_id;
-    sai_uint32_t        priority;
-    bool                admin_state;
-    sai_ip6_t           src_ipv6;    //default SAI_ACL_ENTRY_ATTR_FIELD_START
-    sai_ip6_t           dst_ipv6;
     
-    sai_mac_t           src_mac;
-    sai_mac_t           dst_mac;
+    sai_object_id_t     tbl_oid;
+    sai_uint32_t        priority;   /*between SAI_SWITCH_ATTR_ACL_ENTRY_MINIMUM_PRIORITY and
+                                     SAI_SWITCH_ATTR_ACL_ENTRY_MAXIMUM_PRIORITY, default
+                                     SAI_SWITCH_ATTR_ACL_ENTRY_MINIMUM_PRIORITY*/
+    bool                admin_state;    /*default false */
 
-    sai_ip4_t           src_ipv4;
-    sai_ip4_t           dst_ipv4;
+    /* Field Attr */
+    sai_ip6_t           fld_src_ipv6;       
+    sai_ip6_t           fld_dst_ipv6;
+    
+    sai_mac_t           fld_src_mac;
+    sai_mac_t           fld_dst_mac;
 
-    sai_object_list_t   in_port_list;
-    sai_object_list_t   out_port_list;
+    sai_ip4_t           fld_src_ipv4;
+    sai_ip4_t           fld_dst_ipv4;
 
-    sai_object_id_t     out_port;
+    sai_object_list_t   fld_iportlst;
+    sai_object_list_t   fld_oportlst;
 
-    sai_vlan_id_t       outer_vlan_id;
-    sai_uint32_t        outer_vlan_pri;
-    sai_uint32_t        outer_vlan_cfi;
+    sai_object_id_t     fld_iport_oid;
+    sai_object_id_t     fld_oport_oid;
 
-    sai_vlan_id_t       inner_vlan_id;
-    sai_uint32_t        inner_vlan_pri;
-    sai_uint32_t        inner_vlan_cfi;
-    */
+    sai_uint16_t        fld_ovlan_id:12;
+    sai_uint16_t        fld_ovlan_pri:3;
+    sai_uint16_t        fld_ovlan_cfi:1;
 
-    /* L4 Src Port */
-    /* L4 Dst Port */
-    /* Ether Type */
-    /* IP Protocol */
-    /* IP DSCP */
-    /* IP TTL */
-    /* IP TOS */
-    /* IP FLAGS */
-    /* TCP FLAGS */
+    sai_uint16_t        fld_ivlan_id:12;
+    sai_uint16_t        fld_ivlan_pri:3;
+    sai_uint16_t        fld_ivlan_cfi:1;
 
-    /*
-    sai_acl_ip_type_t   ip_type;
-    sai_acl_ip_frag_t   ip_frag;
-    sai_uint32_t        ipv6_flow_lbl;
-    */
+    sai_uint16_t        fld_l4_src_port;
+    sai_uint16_t        fld_l4_dst_port;
 
-    /*Traffic Class */
-    /* Rule Match fields */
-    /*
-    sai_uint32_t        action_start_base;  //default 0x00002000
-    sai_uint32_t        action_fwd_offset;
-    sai_object_id_t     dest_redirection;
-    */
+    sai_uint16_t        fld_eth_type;
+    sai_uint8_t         fld_ip_prot;
 
-//    sai_acl_action_data_t   
+    sai_uint8_t         fld_dscp:6;
+    sai_uint8_t         fld_ecn:2;
 
+    sai_uint8_t         fld_ttl;
+    sai_uint8_t         fld_tos;
 
+    sai_uint8_t         fld_ip_flags:3;
+    sai_uint8_t         fld_tcp_flags:6;
 
+    sai_acl_ip_type_t   fld_ip_type;
+    sai_acl_ip_frag_t   fld_ip_frag;
+    sai_uint32_t        fld_ipv6_flow_lbl:20;
+
+    sai_cos_t           fld_tc;
+
+    /* rule Action Attr */
+    sai_acl_action_data_t   acn_act_fwd;
+    sai_object_id_t         acn_rdrct_dst_oid;
+
+    sai_packet_action_t     acn_act_pkt;
+    bool                    acn_enbl_flood;
+    sai_object_id_t         acn_counter_oid;
+
+    sai_object_id_t         acn_ig_mirss_oid;
+    sai_object_id_t         acn_eg_mirss_oid;
+
+    sai_object_id_t         acn_policy_oid;
+    bool                    acn_en_dec_ttl;
+    sai_cos_t               acn_tc;
+
+    sai_uint16_t            acn_ivlan_id:16;
+    sai_uint8_t             acn_ivlan_pri:3;
+
+    sai_uint16_t            acn_ovlan_id:16;
+    sai_uint8_t             acn_ovlan_pri:3;
+
+    sai_mac_t               acn_src_mac;
+    sai_mac_t               acn_dst_mac;
+
+    sai_ip4_t               acn_src_ipv4;
+    sai_ip4_t               acn_dst_ipv4;
+
+    sai_ip6_t               acn_src_ipv6;
+    sai_ip6_t               acn_dst_ipv6;
+
+    sai_uint8_t             acn_dscp:6;
+
+    sai_uint16_t            acn_l4_src_port;
+    sai_uint16_t            acn_l4_dst_port;
+
+    sai_object_id_t         acn_ig_smpktss_oid;
+    sai_object_id_t         acn_eg_smpktss_oid;
 
 } acl_entry_t;
+
+typedef struct _acl_counter_t {
+    /* Internal Data Structure */
+    struct _acl_counter_t *next;
+    sai_object_id_t             oid;
+
+    //Read Only
+    sai_object_id_t         tbl_oid;
+    bool                    enbl_pkt_count;
+    bool                    enbl_byte_count;
+
+    uint64_t                pkt_cnt;
+    uint64_t                byte_cnt;
+} acl_counter_t;
 
 
 typedef struct _fdb_entry_t {
     /* Internal Data Structure */
     struct _fdb_entry_t *next;
+    sai_object_id_t             oid;
 
     /* Attributes */
     /* Read Only */
     sai_fdb_entry_type_t    type;
-    sai_object_id_t         port_id;
+    sai_object_id_t         port_oid;
     sai_packet_action_t     act_pkt;
 
 } fdb_entry_t;
@@ -395,7 +463,7 @@ typedef struct _fdb_entry_t {
 typedef struct _port_t {
     /* Internal Data Structure */
     struct _port_t  *next;
-    sai_object_id_t id;
+    sai_object_id_t oid;
 
     /* Attributes */
     /* Read Only */
@@ -408,25 +476,25 @@ typedef struct _port_t {
 
     /* Read Write */
     uint32_t speed;
-    bool enable_admin_mode;                 //default false
+    bool enbl_admin_mode;                 //default false
     sai_port_media_type_t type_media;       //default SAI_PORT_MEDIA_TYPE_NOT_PRESENT
 
     sai_vlan_id_t   default_vlan_id;
     uint8_t default_vlan_pri;               //default 0
     
-    bool  enable_ingress_filtering;         //default false
-    bool  enable_drop_untagged;             //default false
-    bool  enable_drop_tagged;               //default false
+    bool  enbl_ingress_filtering;         //default false
+    bool  enbl_drop_untagged;             //default false
+    bool  enbl_drop_tagged;               //default false
 
     sai_port_internal_loopback_mode_t mode_int_lpbk; //default SAI_PORT_INTERNAL_LOOPBACK_NONE
     sai_port_fdb_learning_mode_t mode_fdb_learn;  //deafult SAI_PORT_LEARN_MODE_HW
 
-    bool enable_update_dscp;                //default false
+    bool enbl_update_dscp;                //default false
     uint32_t mtu;                           //default 1514
 
-    bool enable_flood_storm_cntl;           //default false
-    bool enable_bcast_storm_cntl;           //default false
-    bool enable_mcast_storm_cntl;           //default false
+    bool enbl_flood_storm_cntl;           //default false
+    bool enbl_bcast_storm_cntl;           //default false
+    bool enbl_mcast_storm_cntl;           //default false
 
     sai_port_flow_control_mode_t mode_globle_flow_cntl;    //dafult SAI_PORT_FLOW_CONTROL_DISABLE
     
@@ -436,41 +504,42 @@ typedef struct _port_t {
     sai_object_list_t   ingress_mir_sess_lst;
     sai_object_list_t   egress_mir_sess_lst;
 
-    sai_object_id_t ingress_smpl_pkt_id;        //when disabled  SAI_NULL_OBJECT_ID
-    sai_object_id_t egress_smpl_pkt_id;         //when disabled  SAI_NULL_OBJECT_ID
+    sai_object_id_t ingress_smpl_pkt_oid;        //when disabled  SAI_NULL_OBJECT_ID
+    sai_object_id_t egress_smpl_pkt_oid;         //when disabled  SAI_NULL_OBJECT_ID
 
 } port_t;
 
 
 typedef struct _switch_t {
     /* Internal Data Structure */
-    port_t    *ports;
+    port_t      *port_ll;
+    vrtr_t      *vrtr_ll;
 
     /* Attributes */
     /* Read Only */
     uint32_t num_max_port;
-    sai_object_list_t port_list;
-    sai_object_id_t cpu_port;
+    sai_object_list_t portlst;
+    sai_object_id_t cpu_port_oid;
     uint32_t num_max_vrtr;
     uint32_t size_fdb_tbl;
-    bool enable_link_route;
+    bool enbl_link_route;
     sai_switch_oper_status_t state_oper;
     int32_t max_temp;
     sai_uint32_t min_pri_acl_tbl;
     sai_uint32_t max_pri_acl_tbl;
     sai_uint32_t min_pri_acl_ent;
     sai_uint32_t max_pri_acl_ent;
-    sai_object_id_t default_stp_inst_id;
+    sai_object_id_t default_stp_inst_oid;
 
     
     /* Read Write */
     sai_switch_switching_mode_t mode_switch; //default SAI_SWITCHING_MODE_STORE_AND_FORWARD
 
-    bool enable_bcast_cpu_flood;
-    bool enable_mcast_cpu_flood;
+    bool enbl_bcast_cpu_flood;
+    bool enbl_mcast_cpu_flood;
     //sai_packet_action_t act_ttl_one;
     sai_vlan_id_t default_port_vlan_id;          //default 1
-    sai_mac_t default_mac_addr;
+    sai_mac_t default_mac;
     uint32_t num_max_learned_addr;          //default 0
     uint32_t time_aging_fdb;                //default 0
 
@@ -480,11 +549,11 @@ typedef struct _switch_t {
 
     sai_switch_hash_algo_t algo_lag_hash;   //default SAI_HASH_CRC
     sai_switch_hash_seed_t seed_lag_hash;
-    sai_s32_list_t fields_lag_hash;         //default all fields enabled
+    sai_s32_list_t fields_lag_hash;         //default all fields enbld
 
     sai_switch_hash_algo_t algo_ecmp_hash;  //default SAI_HASH_CRC
     sai_switch_hash_seed_t seed_ecmp_hash;
-    sai_s32_list_t fields_ecmp_hash;        //default all fields enabled
+    sai_s32_list_t fields_ecmp_hash;        //default all fields enbld
 
     uint32_t num_max_path_ecmp;             //default 64
 

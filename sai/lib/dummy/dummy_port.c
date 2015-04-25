@@ -23,21 +23,21 @@
 
 sai_status_t
 dummy_set_port_attr(
-    _In_ sai_object_id_t port_id,
+    _In_ sai_object_id_t port_oid,
     _In_ const sai_attribute_t* attr)
 {
     printf("%s\n", __FUNCTION__);
 
-    if(attr == NULL || port_id < 0 
-            || port_id > dummy_switch.num_max_port) {
+    if(attr == NULL || port_oid < 0 
+            || port_oid > dummy_switch.num_max_port) {
         return SAI_STATUS_FAILURE;
     }
 
     port_t *dummy_port_p;
 
-    dummy_port_p = dummy_switch.ports;
+    dummy_port_p = dummy_switch.port_ll;
     for(; dummy_port_p != NULL; ) {
-        if (port_id == dummy_port_p->id) {
+        if (port_oid == dummy_port_p->oid) {
             break;
         }
         dummy_port_p = dummy_port_p->next;
@@ -62,7 +62,7 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_ADMIN_STATE:
-            dummy_port_p->enable_admin_mode = attr->value.booldata;
+            dummy_port_p->enbl_admin_mode = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_MEDIA_TYPE:
@@ -78,15 +78,15 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_INGRESS_FILTERING:
-            dummy_port_p->enable_ingress_filtering = attr->value.booldata;
+            dummy_port_p->enbl_ingress_filtering = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_DROP_UNTAGGED:
-            dummy_port_p->enable_drop_untagged = attr->value.booldata;
+            dummy_port_p->enbl_drop_untagged = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_DROP_TAGGED:
-            dummy_port_p->enable_drop_tagged = attr->value.booldata;
+            dummy_port_p->enbl_drop_tagged = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_INTERNAL_LOOPBACK:
@@ -98,7 +98,7 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_UPDATE_DSCP:
-            dummy_port_p->enable_update_dscp = attr->value.booldata;
+            dummy_port_p->enbl_update_dscp = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_MTU:
@@ -106,15 +106,15 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_FLOOD_STORM_CONTROL:
-            dummy_port_p->enable_flood_storm_cntl = attr->value.booldata;
+            dummy_port_p->enbl_flood_storm_cntl = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_BROADCAST_STORM_CONTROL:
-            dummy_port_p->enable_bcast_storm_cntl = attr->value.booldata;
+            dummy_port_p->enbl_bcast_storm_cntl = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_MULTICAST_STORM_CONTROL:
-            dummy_port_p->enable_mcast_storm_cntl = attr->value.booldata;
+            dummy_port_p->enbl_mcast_storm_cntl = attr->value.booldata;
             break;
 
         case SAI_PORT_ATTR_GLOBAL_FLOW_CONTROL:
@@ -138,11 +138,11 @@ dummy_set_port_attr(
             break;
 
         case SAI_PORT_ATTR_INGRESS_SAMPLEPACKET_ENABLE:
-            dummy_port_p->ingress_smpl_pkt_id = attr->value.oid;
+            dummy_port_p->ingress_smpl_pkt_oid = attr->value.oid;
             break;
 
         case SAI_PORT_ATTR_EGRESS_SAMPLEPACKET_ENABLE:
-            dummy_port_p->egress_smpl_pkt_id = attr->value.oid;
+            dummy_port_p->egress_smpl_pkt_oid = attr->value.oid;
             break;
 
         default:
@@ -190,7 +190,7 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_ADMIN_STATE:
-            attr->value.booldata = dummy_port_p->enable_admin_mode;
+            attr->value.booldata = dummy_port_p->enbl_admin_mode;
             break;
 
         case SAI_PORT_ATTR_MEDIA_TYPE:
@@ -206,15 +206,15 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_INGRESS_FILTERING:
-            attr->value.booldata = dummy_port_p->enable_ingress_filtering;
+            attr->value.booldata = dummy_port_p->enbl_ingress_filtering;
             break;
 
         case SAI_PORT_ATTR_DROP_UNTAGGED:
-            attr->value.booldata = dummy_port_p->enable_drop_untagged;
+            attr->value.booldata = dummy_port_p->enbl_drop_untagged;
             break;
 
         case SAI_PORT_ATTR_DROP_TAGGED:
-            attr->value.booldata = dummy_port_p->enable_drop_tagged;
+            attr->value.booldata = dummy_port_p->enbl_drop_tagged;
             break;
 
         case SAI_PORT_ATTR_INTERNAL_LOOPBACK:
@@ -226,7 +226,7 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_UPDATE_DSCP:
-            attr->value.booldata = dummy_port_p->enable_update_dscp;
+            attr->value.booldata = dummy_port_p->enbl_update_dscp;
             break;
 
         case SAI_PORT_ATTR_MTU:
@@ -234,15 +234,15 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_FLOOD_STORM_CONTROL:
-            attr->value.booldata = dummy_port_p->enable_flood_storm_cntl;
+            attr->value.booldata = dummy_port_p->enbl_flood_storm_cntl;
             break;
 
         case SAI_PORT_ATTR_BROADCAST_STORM_CONTROL:
-            attr->value.booldata = dummy_port_p->enable_bcast_storm_cntl;
+            attr->value.booldata = dummy_port_p->enbl_bcast_storm_cntl;
             break;
 
         case SAI_PORT_ATTR_MULTICAST_STORM_CONTROL:
-            attr->value.booldata = dummy_port_p->enable_mcast_storm_cntl;
+            attr->value.booldata = dummy_port_p->enbl_mcast_storm_cntl;
             break;
 
         case SAI_PORT_ATTR_GLOBAL_FLOW_CONTROL:
@@ -266,11 +266,11 @@ dummy_get_single_port_attr(
             break;
 
         case SAI_PORT_ATTR_INGRESS_SAMPLEPACKET_ENABLE:
-            attr->value.oid = dummy_port_p->ingress_smpl_pkt_id;
+            attr->value.oid = dummy_port_p->ingress_smpl_pkt_oid;
             break;
 
         case SAI_PORT_ATTR_EGRESS_SAMPLEPACKET_ENABLE:
-            attr->value.oid = dummy_port_p->egress_smpl_pkt_id;
+            attr->value.oid = dummy_port_p->egress_smpl_pkt_oid;
             break;
 
         default:
@@ -282,14 +282,14 @@ dummy_get_single_port_attr(
 
 sai_status_t
 dummy_get_port_attr(
-    _In_ sai_object_id_t port_id,
+    _In_ sai_object_id_t port_oid,
     _In_ uint32_t attr_count,
     _Inout_ sai_attribute_t* attr_arr)
 {
     printf("%s\n", __FUNCTION__);
 
-    if(attr_arr == NULL || port_id < 0 
-            || port_id > dummy_switch.num_max_port) {
+    if(attr_arr == NULL || port_oid < 0 
+            || port_oid > dummy_switch.num_max_port) {
         return SAI_STATUS_FAILURE;
     }
 
@@ -298,9 +298,9 @@ dummy_get_port_attr(
 
     int i;
 
-    dummy_port_p = dummy_switch.ports;
+    dummy_port_p = dummy_switch.port_ll;
     for(; dummy_port_p != NULL; ) {
-        if (port_id == dummy_port_p->id) {
+        if (port_oid == dummy_port_p->oid) {
             break;
         }
         dummy_port_p = dummy_port_p->next;
@@ -324,7 +324,7 @@ dummy_get_port_attr(
 
 sai_status_t
 dummy_get_port_stats(
-    _In_ sai_object_id_t port_id,
+    _In_ sai_object_id_t port_oid,
     _In_ const sai_port_stat_counter_t *counter_ids,
     _In_ uint32_t number_of_counters,
     _Out_ uint64_t* counters)
@@ -378,16 +378,16 @@ init_port(port_t *port_p)
 
     port_p->speed = 10;
     port_p->default_vlan_pri = 0;
-    port_p->enable_ingress_filtering = false;
-    port_p->enable_drop_untagged = false;
-    port_p->enable_drop_tagged = false;
+    port_p->enbl_ingress_filtering = false;
+    port_p->enbl_drop_untagged = false;
+    port_p->enbl_drop_tagged = false;
     port_p->mode_int_lpbk = SAI_PORT_INTERNAL_LOOPBACK_NONE;
     port_p->mode_fdb_learn = SAI_PORT_LEARN_MODE_HW;
-    port_p->enable_update_dscp = false;
+    port_p->enbl_update_dscp = false;
     port_p->mtu = 1514;
-    port_p->enable_flood_storm_cntl = false;
-    port_p->enable_bcast_storm_cntl = false;
-    port_p->enable_mcast_storm_cntl = false;
+    port_p->enbl_flood_storm_cntl = false;
+    port_p->enbl_bcast_storm_cntl = false;
+    port_p->enbl_mcast_storm_cntl = false;
     port_p->mode_globle_flow_cntl = SAI_PORT_FLOW_CONTROL_DISABLE;
     port_p->num_max_learned_addr = 0;
     port_p->act_fdb_learn_limit = SAI_PACKET_ACTION_DROP;
@@ -408,8 +408,8 @@ init_port(port_t *port_p)
     ((sai_object_list_t*)p)->list = NULL;
     port_p->egress_mir_sess_lst = *(sai_object_list_t*)p;
 
-    port_p->ingress_smpl_pkt_id = SAI_NULL_OBJECT_ID;
-    port_p->egress_smpl_pkt_id = SAI_NULL_OBJECT_ID;
+    port_p->ingress_smpl_pkt_oid = SAI_NULL_OBJECT_ID;
+    port_p->egress_smpl_pkt_oid = SAI_NULL_OBJECT_ID;
 
     return true;
 }
@@ -422,7 +422,7 @@ show_port(port_t *port_p)
     }
 
     printf("=========== port ==================\n");
-    printf("  id: 0x%8lx \n", port_p->id);
+    printf("  id: 0x%8lx \n", port_p->oid);
     printf("  type: ");
     print_port_type(port_p->type);
 
@@ -437,20 +437,20 @@ show_port(port_t *port_p)
 
 
     printf("  speed: %d\n", port_p->speed);
-    printf("  admin mode: %s\n", port_p->enable_admin_mode?"true":"false");
+    printf("  admin mode: %s\n", port_p->enbl_admin_mode?"true":"false");
     printf("  media type: ");
     print_port_media_type(port_p->type_media);
 
     printf("  default vlan id: %d\n",  port_p->default_vlan_id);
     printf("  default vlan priority: %d\n", port_p->default_vlan_pri);
     printf("  ingress filtering: %s\n", 
-            port_p->enable_ingress_filtering?"true":"false");
+            port_p->enbl_ingress_filtering?"true":"false");
 
     printf("  dropping of untagged: %s\n", 
-            port_p->enable_drop_untagged?"true":"false");
+            port_p->enbl_drop_untagged?"true":"false");
 
     printf("  dropping of tagged: %s\n", 
-            port_p->enable_drop_tagged?"true":"false");
+            port_p->enbl_drop_tagged?"true":"false");
 
     printf("  internal loopback control: ");
     print_port_lpbk_cntl(port_p->mode_int_lpbk);
@@ -459,16 +459,16 @@ show_port(port_t *port_p)
     print_port_fdb_lrn_mode(port_p->mode_fdb_learn);
 
     printf("  update DSCP of outgoing pkt: %s\n", 
-            port_p->enable_update_dscp?"true":"false");
+            port_p->enbl_update_dscp?"true":"false");
 
     printf("  mtu size: %d\n", port_p->mtu);
 
     printf("  flood storm control: %s\n",
-            port_p->enable_flood_storm_cntl?"true":"false");
+            port_p->enbl_flood_storm_cntl?"true":"false");
     printf("  broadcast storm control: %s\n",
-            port_p->enable_bcast_storm_cntl?"true":"false");
+            port_p->enbl_bcast_storm_cntl?"true":"false");
     printf("  multicast storm control: %s\n",
-            port_p->enable_mcast_storm_cntl?"true":"false");
+            port_p->enbl_mcast_storm_cntl?"true":"false");
 
     printf("  global flow control: ");
     print_port_flow_cntl_mode(port_p->mode_globle_flow_cntl);
@@ -486,10 +486,10 @@ show_port(port_t *port_p)
             port_p->egress_mir_sess_lst.count);
 
     printf("  ingress sample packet session id: %lu\n",
-            port_p->ingress_smpl_pkt_id);
+            port_p->ingress_smpl_pkt_oid);
 
     printf("  egress sample packet session id: %lu\n",
-            port_p->egress_smpl_pkt_id);
+            port_p->egress_smpl_pkt_oid);
 
     printf("  custom range base: 0x%8x\n", SAI_PORT_ATTR_CUSTOM_RANGE_BASE);
 

@@ -21,7 +21,7 @@ bool init_objid_pool()
     return true;
 }
 
-bool acquire_id(uint64_t *id)
+bool acquire_oid(sai_object_id_t *oid)
 {
     printf("%s\n", __FUNCTION__);
     /*
@@ -45,11 +45,11 @@ bool acquire_id(uint64_t *id)
     OBJ_RANGE --;
     */
 
-    *id = rand();
+    *oid = rand();
     return true;
 }
 
-bool release_id(uint64_t id) 
+bool release_oid(sai_object_id_t oid) 
 {
     printf("%s\n", __FUNCTION__);
 
@@ -182,4 +182,25 @@ void print_acl_type(sai_acl_ip_type_t type)
         (type == 7 ) ?"ARP":
         (type == 8 ) ?"ARP_REQUEST":
         (type == 9 ) ?"ARP_REPLY":"??");
+}
+
+void print_olst(sai_object_list_t lst)
+{
+    int i;
+
+    for(i=0; i<lst.count; i++) {
+        printf("0x%8lx ", lst.list[i]);
+    }
+
+    printf("\n");
+}
+
+void set_mac(sai_mac_t mac1, const sai_mac_t mac2)
+{
+    mac1[0] = mac2[0];
+    mac1[1] = mac2[1];
+    mac1[2] = mac2[2];
+    mac1[3] = mac2[3];
+    mac1[4] = mac2[4];
+    mac1[5] = mac2[5];
 }
