@@ -20,30 +20,39 @@
  *
  */
 
-#ifndef __DUMMY_INTERNAL_H_
-#define __DUMMY_INTERNAL_H_
+#ifndef __DUMMY_BST_H_
+#define __DUMMY_BST_H_
 
-#include "dummy_switch.h"
-#include "dummy_port.h"
-#include "dummy_fdb.h"
-#include "dummy_vlan.h"
-#include "dummy_vrtr.h"
-#include "dummy_route.h"
-#include "dummy_nexthop.h"
-#include "dummy_nexthop_grp.h"
-#include "dummy_rtr_intf.h"
-#include "dummy_nbr.h"
-#include "dummy_qos.h"
-#include "dummy_acl.h"
-#include "dummy_host_intf.h"
-#include "dummy_mirror_sess.h"
-#include "dummy_smpl_pkt_sess.h"
-#include "dummy_stp.h"
-#include "dummy_lag.h"
-#include "dummy_util.h"
-#include "dummy_ll.h"
-#include "dummy_bst.h"
+#include "dummy.h"
+#include "dummy_internal.h"
+
+#define UNIT_TEST   true
+
+typedef struct _generic_tree_node_t {
+    struct _generic_tree_node_t *left;
+    struct _generic_tree_node_t *right;
+    sai_object_id_t             oid;
+
+} tree_node_t;
+
+bool tree_new_node(tree_node_t **npp);
+void tree_erase_node(tree_node_t *np);
+
+bool tree_insert(tree_node_t **treepp, tree_node_t *np);
+tree_node_t* tree_lookup(tree_node_t *treep, sai_object_id_t key);
+tree_node_t* tree_lookup_nr(tree_node_t *treep, sai_object_id_t key);
+
+tree_node_t* tree_remove(tree_node_t **treepp, sai_object_id_t key); 
+
+void tree_show(tree_node_t *treep, int level);
+bool tree_is_bst(tree_node_t *treep);
+
+
+//To Do
+//1. Basic Tree Operation_
+//2. Expand the test on larger node
+//2. pass comp_func as the parameter
 
 
 
-#endif //__DUMMY_INTERNAL_H_
+#endif //__DUMMY_BST_H_

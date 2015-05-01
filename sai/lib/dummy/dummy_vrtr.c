@@ -262,7 +262,7 @@ void show_vrtr(vrtr_t *vrtr_p)
 
     printf("======== virtual router  ===========\n");
 
-    printf("  oid: 0x%8lx\n", vrtr_p->oid);
+    printf("  oid: 0x%08lx\n", vrtr_p->oid);
     printf("  admin ipv4 state: %s\n", vrtr_p->enbl_admin_v4?"true":"false");
     printf("  admin ipv6 state: %s\n", vrtr_p->enbl_admin_v6?"true":"false");
 

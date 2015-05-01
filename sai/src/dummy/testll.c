@@ -200,10 +200,6 @@ int main(int argc, char** argv)
     }
 
 
-
-
-
-
     printf(" ======= TEST Linked List Completed ========\n");
     return 0;
 }

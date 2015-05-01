@@ -64,4 +64,13 @@ dummy_flush_all_fdb_entry_by_port_vlan(
 
 sai_fdb_api_t dummy_fdb_method_table;
 
+/* Internal Functions */
+bool init_fdb_entry(fdb_entry_t *fentry_p);
+void show_fdb_entry(fdb_entry_t *fentry_p);
+
+bool new_fdb_entry(fdb_entry_t **fentry_pp);
+void erase_fdb_entry(fdb_entry_t *fentry_p);
+
+
+
 #endif //__DUMMY_FDB_H_

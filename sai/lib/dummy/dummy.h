@@ -131,18 +131,19 @@ typedef struct _rtr_intf_t {
 
 
 typedef struct _vrtr_t {
-    /* Internal Data Structure */
+    // Internal Data Structure 
     struct _vrtr_t             *next;
     sai_object_id_t             oid;
 
-    /* Read Only */
-    /* Read Write */
+    // Read Only 
+    // Read Write 
     bool        enbl_admin_v4;
     bool        enbl_admin_v6;
     sai_mac_t   src_mac;
     sai_packet_action_t     act_ttl_one;
     sai_packet_action_t     act_ip_opt;     
 } vrtr_t;
+
 
 
 typedef struct _route_t {
