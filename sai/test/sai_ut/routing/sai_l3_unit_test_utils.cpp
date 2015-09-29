@@ -97,12 +97,49 @@ static inline void sai_switch_shutdown_callback (void)
 {
 }
 
+/*--------------------------------------------------------*/
+//Profile Services
+#define UNREFERENCED_PARAMETER(P)   (P)
+
+const char* test_profile_get_value(
+    _In_ sai_switch_profile_id_t profile_id,
+    _In_ const char* variable)
+{
+    UNREFERENCED_PARAMETER(profile_id);
+    UNREFERENCED_PARAMETER(variable);
+
+    return NULL;
+}
+
+int test_profile_get_next_value(
+    _In_ sai_switch_profile_id_t profile_id,
+    _Out_ const char** variable,
+    _Out_ const char** value)
+{
+    UNREFERENCED_PARAMETER(profile_id);
+    UNREFERENCED_PARAMETER(variable);
+    UNREFERENCED_PARAMETER(value);
+
+    return -1;
+}
+
+const service_method_table_t test_services =
+{
+    test_profile_get_value,
+    test_profile_get_next_value
+};
+
 /* SAI switch initialization */
 void saiL3Test ::SetUpTestCase (void)
 {
     sai_switch_notification_t notification;
     sai_attribute_t attr;
     sai_status_t sai_rc = SAI_STATUS_SUCCESS;
+
+    memset (&notification, 0, sizeof(sai_switch_notification_t));
+
+    ASSERT_EQ(SAI_STATUS_SUCCESS,
+        sai_api_initialize(0, (service_method_table_t *)&test_services));
 
     memset (&notification, 0, sizeof(sai_switch_notification_t));
 
